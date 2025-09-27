@@ -71,17 +71,28 @@ export default function PetManager() {
             setError(null);
             setIsLoadingHistorical(true);
 
-                const { results, errors } = await fakeStockApiService.fetchMultipleHistoricalData(
-                    selectedSymbols, 
-                    150, // 150 days historical + 50 days predictions = 200 total
-                );
+            const symbolsToFetch = selectedSymbols.filter(symbol => 
+                !pets[symbol]?.historicalData || pets[symbol].historicalData.length === 0
+            );
 
-            setSimulationData(results);
+            if (symbolsToFetch.length === 0) {
+                setIsLoadingHistorical(false);
+                return;
+            }
 
+            const { results, errors } = await fakeStockApiService.fetchMultipleHistoricalData(
+                symbolsToFetch, 
+                150, // 150 days historical + 50 days predictions = 200 total
+            );
+
+            setSimulationData(prevData => ({
+                ...prevData,
+                ...results
+            }));
 
             setPets(prevPets => {
                 const updatedPets = { ...prevPets };
-                selectedSymbols.forEach(symbol => {
+                symbolsToFetch.forEach(symbol => {
                     if (results[symbol]) {
                         updatedPets[symbol] = {
                             ...updatedPets[symbol],

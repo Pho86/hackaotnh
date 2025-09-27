@@ -111,7 +111,6 @@ class StockApiService {
                     }))
                     .reverse(); 
 
-                console.log(`Loaded ${historicalData.length} days of historical data for ${symbol}`);
                 return historicalData;
             } else {
                 throw new Error("No historical data available in response");
@@ -153,7 +152,6 @@ class StockApiService {
                 if (!this.canMakeApiCall()) {
                     const waitTime = this.minTimeBetweenCalls - (Date.now() - this.lastCallTime);
                     if (waitTime > 0) {
-                        console.log(`Waiting ${Math.ceil(waitTime / 1000)}s before fetching ${symbol}...`);
                         await new Promise(resolve => setTimeout(resolve, waitTime));
                     }
                 }
@@ -165,10 +163,7 @@ class StockApiService {
                     onProgress(symbol, i + 1, symbols.length);
                 }
                 
-                console.log(`✓ Fetched historical data for ${symbol} (${i + 1}/${symbols.length})`);
-                
             } catch (error) {
-                console.error(`✗ Failed to fetch historical data for ${symbol}:`, error);
                 errors[symbol] = error.message;
                 
                 if (onProgress) {

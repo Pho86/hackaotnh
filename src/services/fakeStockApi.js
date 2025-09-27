@@ -141,10 +141,7 @@ class FakeStockApiService {
                     onProgress(symbol, i + 1, symbols.length);
                 }
                 
-                console.log(`✅ Generated fake historical data for ${symbol} (${i + 1}/${symbols.length})`);
-                
             } catch (error) {
-                console.error(`❌ Failed to generate data for ${symbol}:`, error);
                 errors[symbol] = error.message;
                 
                 if (onProgress) {
