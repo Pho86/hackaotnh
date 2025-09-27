@@ -80,7 +80,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     </Button>
 
                     {isOpen && (
-                        <div className="absolute z-10 w-full mt-1 bg-black/90 border border-neutral-00 rounded-md shadow-lg max-h-80 overflow-y-auto">
+                        <div className="absolute z-10 w-full mt-1 bg-black/70 border border-neutral-00 rounded-md shadow-lg max-h-80 overflow-y-auto">
                             <div className="p-2 border-b border-gray-200">
                                 <input
                                     type="text"
