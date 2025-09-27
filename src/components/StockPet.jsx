@@ -5,7 +5,7 @@ import backgroundImg from "../assets/home.png";
 export default function StockPet() {
     return (
         <>
-            <div className="overflow-hidden h-screen w-screen absolute top-0 left-0 opacity-5">
+            <div className="overflow-hidden h-screen w-screen absolute top-0 left-0 opacity-5 pointer-events-none">
                 <div class="bubble one"></div>
                 <div class="bubble two"></div>
                 <div class="bubble three"></div>

@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="overflow-hidden h-screen w-screen absolute top-0 left-0">
+      <div className="overflow-hidden h-screen w-screen absolute top-0 left-0 pointer-events-none">
         <div class="bubble one"></div>
         <div class="bubble two"></div>
         <div class="bubble three"></div>
