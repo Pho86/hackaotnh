@@ -49,7 +49,7 @@ export default function SimulationControls({
       </div>
 
       {isSimulating && simulationDataLength > 0 && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-200">
           <p>
             Day {currentSimIndex + 1} of {simulationDataLength}
           </p>
