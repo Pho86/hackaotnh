@@ -1,31 +1,19 @@
 // fake stock API service that generates realistic stock data
+import stocksData from '../data/stocks.json';
 
 class FakeStockApiService {
     constructor() {
-        this.basePrices = {
-            "AAPL": 175.50,
-            "GOOGL": 142.30,
-            "MSFT": 378.85,
-            "AMZN": 155.20,
-            "TSLA": 248.75,
-            "META": 485.60,
-            "NVDA": 875.25,
-            "NFLX": 485.30,
-            "AMD": 135.80,
-            "CRM": 285.40,
-            "ADBE": 585.90,
-            "PYPL": 65.45,
-            "UBER": 72.15,
-            "SPOT": 285.75,
-            "SQ": 85.30
-        };
+        this.basePrices = {};
+        stocksData.stocks.forEach(stock => {
+            this.basePrices[stock.symbol] = stock.basePrice;
+        });
         
         this.currentPrices = { ...this.basePrices };
         this.apiCallsToday = 0;
         this.lastCallTime = 0;
     }
 
-    generatePriceMovement(currentPrice, volatility = 0.02) {
+    generatePriceMovement(currentPrice, volatility = 0.1) {
         // random walk with slight upward bias
         const change = (Math.random() - 0.45) * volatility;
         return currentPrice * (1 + change);
@@ -37,6 +25,7 @@ class FakeStockApiService {
         
         let currentPrice = basePrice * (0.9 + Math.random() * 0.2); 
         
+        // generate historical data (past to present)
         for (let i = 0; i < days; i++) {
             const date = new Date();
             date.setDate(date.getDate() - days + 1 + i); // start from days ago to today
@@ -50,7 +39,27 @@ class FakeStockApiService {
                 symbol,
                 date: date.toISOString().split('T')[0],
                 price: Math.round(currentPrice * 100) / 100,
-                volume: volume
+                volume: volume,
+                isPrediction: false
+            });
+        }
+        
+        // generate 50 days in the future
+        for (let i = 1; i <= 50; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() + i); // future dates
+            
+            currentPrice = this.generatePriceMovement(currentPrice, 0.025);
+            
+            // generate volume (realistic range)
+            const volume = Math.floor(Math.random() * 50000000) + 10000000;
+            
+            historicalData.push({
+                symbol,
+                date: date.toISOString().split('T')[0],
+                price: Math.round(currentPrice * 100) / 100,
+                volume: volume,
+                isPrediction: true
             });
         }
         
@@ -96,7 +105,6 @@ class FakeStockApiService {
         this.lastCallTime = Date.now();
         
         const data = this.generateHistoricalData(symbol, days);
-        console.log(`📊 Generated ${data.length} days of fake historical data for ${symbol}`);
         return data;
     }
 

@@ -48,16 +48,19 @@ export default function SimulationControls({
                 <span className="text-sm">{simulationSpeed}ms</span>
             </div>
 
-            {isSimulating && simulationDataLength > 0 && (
-                <div className="text-sm text-gray-600">
-                    <p>Day {currentSimIndex + 1} of {simulationDataLength}</p>
-                    {simulationData && Object.keys(simulationData).length > 0 && (
-                        <p className="text-xs text-gray-500">
-                            Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
-                        </p>
-                    )}
-                </div>
-            )}
+                {isSimulating && simulationDataLength > 0 && (
+                    <div className="text-sm text-gray-600">
+                        <p>Day {currentSimIndex + 1} of {simulationDataLength}</p>
+                        {simulationData && Object.keys(simulationData).length > 0 && (
+                            <p className="text-xs text-gray-500">
+                                Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
+                                {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
+                                    <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
+                                )}
+                            </p>
+                        )}
+                    </div>
+                )}
         </div>
     );
 };

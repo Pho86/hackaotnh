@@ -1,24 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Button from './Button';
+import stocksData from '../data/stocks.json';
 
 export default function StockSelector({ selectedStocks, onStocksChange, isSimulating }) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
     
-    const popularStocks = [
-        { symbol: "AAPL", name: "Apple Inc." },
-        { symbol: "GOOGL", name: "Alphabet Inc." },
-        { symbol: "MSFT", name: "Microsoft Corporation" },
-        { symbol: "AMZN", name: "Amazon.com Inc." },
-        { symbol: "TSLA", name: "Tesla Inc." },
-        { symbol: "META", name: "Meta Platforms Inc." },
-        { symbol: "NVDA", name: "NVIDIA Corporation" },
-        { symbol: "NFLX", name: "Netflix Inc." },
-        { symbol: "AMD", name: "Advanced Micro Devices" },
-        { symbol: "ADBE", name: "Adobe Inc." },
-        { symbol: "UBER", name: "Uber Technologies Inc." },
-        { symbol: "SPOT", name: "Spotify Technology S.A." },
-    ];
+    const popularStocks = stocksData.stocks;
 
     const handleStockToggle = (stock) => {
         const isSelected = selectedStocks.includes(stock.symbol);

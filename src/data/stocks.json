@@ -1,0 +1,94 @@
+{
+  "stocks": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "basePrice": 175.50,
+      "color": "#007AFF"
+    },
+    {
+      "symbol": "GOOGL",
+      "name": "Alphabet Inc.",
+      "basePrice": 142.30,
+      "color": "#34A853"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "basePrice": 378.85,
+      "color": "#FF9500"
+    },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com Inc.",
+      "basePrice": 155.20,
+      "color": "#FF6B6B"
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla Inc.",
+      "basePrice": 248.75,
+      "color": "#4ECDC4"
+    },
+    {
+      "symbol": "META",
+      "name": "Meta Platforms Inc.",
+      "basePrice": 485.60,
+      "color": "#45B7D1"
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corporation",
+      "basePrice": 875.25,
+      "color": "#96CEB4"
+    },
+    {
+      "symbol": "NFLX",
+      "name": "Netflix Inc.",
+      "basePrice": 485.30,
+      "color": "#FFEAA7"
+    },
+    {
+      "symbol": "AMD",
+      "name": "Advanced Micro Devices",
+      "basePrice": 135.80,
+      "color": "#DDA0DD"
+    },
+    {
+      "symbol": "ADBE",
+      "name": "Adobe Inc.",
+      "basePrice": 585.90,
+      "color": "#98D8C8"
+    },
+    {
+      "symbol": "UBER",
+      "name": "Uber Technologies Inc.",
+      "basePrice": 72.15,
+      "color": "#F7DC6F"
+    },
+    {
+      "symbol": "SPOT",
+      "name": "Spotify Technology S.A.",
+      "basePrice": 285.75,
+      "color": "#BB8FCE"
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce Inc.",
+      "basePrice": 285.40,
+      "color": "#FF9F40"
+    },
+    {
+      "symbol": "PYPL",
+      "name": "PayPal Holdings Inc.",
+      "basePrice": 65.45,
+      "color": "#A8E6CF"
+    },
+    {
+      "symbol": "SQ",
+      "name": "Block Inc.",
+      "basePrice": 85.30,
+      "color": "#FFD93D"
+    }
+  ]
+}

@@ -4,9 +4,10 @@ import PetDisplay from './PetDisplay';
 import StockDataDisplay from './StockDataDisplay';
 import SimulationControls from './SimulationControls';
 import StockSelector from './StockSelector';
+import StockGraph from './StockGraph';
 
-export default function PetManager({ symbols = ["AAPL"] }) {
-    const [selectedSymbols, setSelectedSymbols] = useState(symbols);
+export default function PetManager() {
+    const [selectedSymbols, setSelectedSymbols] = useState([]);
     const [pets, setPets] = useState({});
     const [isSimulating, setIsSimulating] = useState(false);
     const [simulationData, setSimulationData] = useState({});
@@ -39,10 +40,10 @@ export default function PetManager({ symbols = ["AAPL"] }) {
         try {
             setError(null);
             const { results, errors } = await fakeStockApiService.fetchMultipleSymbols(selectedSymbols);
-            
+
             setPets(prevPets => {
                 const updatedPets = { ...prevPets };
-                
+
                 results.forEach(result => {
                     updatedPets[result.symbol] = {
                         ...updatedPets[result.symbol],
@@ -65,17 +66,18 @@ export default function PetManager({ symbols = ["AAPL"] }) {
 
     const fetchAllHistoricalData = async () => {
         if (selectedSymbols.length === 0) return;
-        
+
         try {
             setError(null);
             setIsLoadingHistorical(true);
 
-            const { results, errors } = await fakeStockApiService.fetchMultipleHistoricalData(
-                selectedSymbols, 
-                100, 
-            );
+                const { results, errors } = await fakeStockApiService.fetchMultipleHistoricalData(
+                    selectedSymbols, 
+                    150, // 150 days historical + 50 days predictions = 200 total
+                );
 
             setSimulationData(results);
+
 
             setPets(prevPets => {
                 const updatedPets = { ...prevPets };
@@ -123,7 +125,7 @@ export default function PetManager({ symbols = ["AAPL"] }) {
 
         const interval = setInterval(() => {
             setCurrentSimIndex(prev => {
-                const allSymbolsHaveData = selectedSymbols.every(symbol => 
+                const allSymbolsHaveData = selectedSymbols.every(symbol =>
                     simulationData[symbol] && simulationData[symbol].length > 0
                 );
 
@@ -133,19 +135,19 @@ export default function PetManager({ symbols = ["AAPL"] }) {
                 const nextIndex = prev + 1;
 
                 if (nextIndex >= maxLength) {
-                    setIsSimulating(false); 
+                    setIsSimulating(false);
                     return prev;
                 }
 
                 setPets(prevPets => {
                     const updatedPets = { ...prevPets };
-                    
+
                     selectedSymbols.forEach(symbol => {
                         if (simulationData[symbol] && simulationData[symbol][nextIndex]) {
                             const currentData = simulationData[symbol][nextIndex];
                             const prevData = simulationData[symbol][prev] || currentData;
-                            
-                            const changePercent = prevData ? 
+
+                            const changePercent = prevData ?
                                 ((currentData.price - prevData.price) / prevData.price) * 100 : 0;
 
                             updatedPets[symbol] = {
@@ -170,7 +172,7 @@ export default function PetManager({ symbols = ["AAPL"] }) {
     }, [isSimulating, simulationData, simulationSpeed, selectedSymbols]);
 
     const startSimulation = async () => {
-        const hasHistoricalData = selectedSymbols.some(symbol => 
+        const hasHistoricalData = selectedSymbols.some(symbol =>
             simulationData[symbol] && simulationData[symbol].length > 0
         );
 
@@ -178,7 +180,7 @@ export default function PetManager({ symbols = ["AAPL"] }) {
             await fetchAllHistoricalData();
         }
 
-        const stillHasData = selectedSymbols.some(symbol => 
+        const stillHasData = selectedSymbols.some(symbol =>
             simulationData[symbol] && simulationData[symbol].length > 0
         );
 
@@ -193,7 +195,7 @@ export default function PetManager({ symbols = ["AAPL"] }) {
         setIsSimulating(false);
     };
 
-    const canStartSimulation = selectedSymbols.some(symbol => 
+    const canStartSimulation = selectedSymbols.some(symbol =>
         simulationData[symbol] && simulationData[symbol].length > 0
     );
 
@@ -210,8 +212,9 @@ export default function PetManager({ symbols = ["AAPL"] }) {
             ))}
 
             <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
+
                 {!isSimulating && (
-                    <StockSelector 
+                    <StockSelector
                         selectedStocks={selectedSymbols}
                         onStocksChange={setSelectedSymbols}
                         isSimulating={isSimulating}
@@ -224,27 +227,35 @@ export default function PetManager({ symbols = ["AAPL"] }) {
                     simulationSpeed={simulationSpeed}
                     onSpeedChange={setSimulationSpeed}
                     currentSimIndex={currentSimIndex}
-                    simulationDataLength={Math.max(...selectedSymbols.map(symbol => 
+                    simulationDataLength={Math.max(...selectedSymbols.map(symbol =>
                         simulationData[symbol] ? simulationData[symbol].length : 0
                     ))}
                     simulationData={simulationData}
                     canStartSimulation={canStartSimulation && !isLoadingHistorical}
                 />
 
-                <div className="flex flex-wrap gap-6 w-full px-8 justify-center">
-                    {selectedSymbols.map(symbol => (
-                        <div key={`info-${symbol}`} className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
-                            <div className="text-center space-y-3">
-                                <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
-                                
-                                <StockDataDisplay
-                                    data={pets[symbol]?.data}
-                                    error={error}
-                                    symbol={symbol}
-                                />
+                <div className='flex p-6 space-y-4 relative z-10'>
+                    <StockGraph
+                        stocks={pets}
+                        isSimulating={isSimulating}
+                        currentSimIndex={currentSimIndex}
+                        simulationData={simulationData}
+                    />
+                    <div className="flex flex-col gap-4 w-full px-8 justify-center">
+                        {selectedSymbols.map(symbol => (
+                            <div key={`info-${symbol}`} className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
+                                <div className="text-center space-y-3">
+                                    <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
+
+                                    <StockDataDisplay
+                                        data={pets[symbol]?.data}
+                                        error={error}
+                                        symbol={symbol}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
