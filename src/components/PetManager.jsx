@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import fakeStockApiService from '../services/fakeStockApi';
-import PetDisplay from './PetDisplay';
-import StockDataDisplay from './StockDataDisplay';
-import SimulationControls from './SimulationControls';
-import StockSelector from './StockSelector';
-import StockGraph from './StockGraph';
-import Button from './Button';
+import React, { useState, useEffect } from "react";
+import fakeStockApiService from "../services/fakeStockApi";
+import PetDisplay from "./PetDisplay";
+import StockDataDisplay from "./StockDataDisplay";
+import SimulationControls from "./SimulationControls";
+import StockSelector from "./StockSelector";
+import StockGraph from "./StockGraph";
+import Button from "./Button";
 
 export default function PetManager() {
-    const [selectedSymbols, setSelectedSymbols] = useState([]);
-    const [pets, setPets] = useState({});
-    const [isSimulating, setIsSimulating] = useState(false);
-    const [simulationData, setSimulationData] = useState({});
-    const [currentSimIndex, setCurrentSimIndex] = useState(0);
-    const [simulationSpeed, setSimulationSpeed] = useState(1000);
-    const [error, setError] = useState(null);
-    const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
-    const [viewMode, setViewMode] = useState('individual');
+  const [selectedSymbols, setSelectedSymbols] = useState([]);
+  const [pets, setPets] = useState({});
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulationData, setSimulationData] = useState({});
+  const [currentSimIndex, setCurrentSimIndex] = useState(0);
+  const [simulationSpeed, setSimulationSpeed] = useState(1000);
+  const [error, setError] = useState(null);
+  const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
+  const [viewMode, setViewMode] = useState("individual");
 
   useEffect(() => {
     const initialPets = {};
@@ -229,75 +229,17 @@ export default function PetManager() {
           symbol={symbol}
           data={pets[symbol]?.data}
         />
-        
       ))}
-      {/* Control Panel */}
-        <div className="flex flex-col space-y-4 mb-4 p-4">
-            <div className="flex flex-row space-x-4 items-center">
-                <Button 
-                    onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
-                    variant="default"
-                >
-                    {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
-                </Button>
-                
-                <Button
-                    onClick={isSimulating ? stopSimulation : startSimulation}
-                    disabled={!isSimulating && (!canStartSimulation || isLoadingHistorical)}
-                    variant={isSimulating ? "danger" : "success"}
-                >
-                    {isSimulating ? "Stop Life" : "Start Life"}
-                </Button>
-                
-                <Button
-                    onClick={() => {
-                        if (simulationSpeed === 500) {
-                            setSimulationSpeed(1000);
-                        } else if (simulationSpeed === 1000) {
-                            setSimulationSpeed(2000);
-                        } else {
-                            setSimulationSpeed(500);
-                        }
-                    }}
-                >
-                    {simulationSpeed === 500 ? ">" : simulationSpeed === 1000 ? ">>" : ">>>"}
-                </Button>
-            </div>
-            
-            {!isSimulating && (
-                <StockSelector
-                    selectedStocks={selectedSymbols}
-                    onStocksChange={setSelectedSymbols}
-                    isSimulating={isSimulating}
-                />
-            )}
-            
-            {isSimulating && (
-                <div className="text-sm text-gray-600">
-                    <p>Day {currentSimIndex + 1} of {Math.max(...selectedSymbols.map((symbol) =>
-                        simulationData[symbol] ? simulationData[symbol].length : 0
-                    ))}</p>
-                    {simulationData && Object.keys(simulationData).length > 0 && (
-                        <p className="text-xs text-gray-500">
-                            Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
-                            {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
-                                <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
-                            )}
-                        </p>
-                    )}
-                </div>
-            )}
-        </div>
 
       <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
-        {/* {!isSimulating && (
+        {!isSimulating && (
           <StockSelector
             selectedStocks={selectedSymbols}
             onStocksChange={setSelectedSymbols}
             isSimulating={isSimulating}
           />
-        )} */}
-        {/* <SimulationControls
+        )}
+        <SimulationControls
           isSimulating={isSimulating}
           onStartSimulation={startSimulation}
           onStopSimulation={stopSimulation}
@@ -310,41 +252,50 @@ export default function PetManager() {
             )
           )}
           simulationData={simulationData}
-          pets={pets}
           canStartSimulation={canStartSimulation && !isLoadingHistorical}
-        /> */}
+        />
 
-         <div className="flex flex-col p-6 space-y-4 relative z-10">
-           {/* <div className="flex justify-center mb-4">
-             <Button 
-               onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
-               variant="default"
-             >
-               {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
-             </Button>
-           </div> */}
-           <StockGraph
-             stocks={pets}
-             isSimulating={isSimulating}
-             currentSimIndex={currentSimIndex}
-             simulationData={simulationData}
-             viewMode={viewMode}
-           />
-           <div className="flex flex-col gap-4 w-full px-8 justify-center">
-             {selectedSymbols.map(symbol => (
-               <div key={`info-${symbol}`} className="bg-black/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
-                 <div className="text-center space-y-3">
-                   <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
-                   <StockDataDisplay
-                     data={pets[symbol]?.data}
-                     error={error}
-                     symbol={symbol}
-                   />
-                 </div>
-               </div>
-             ))}
-           </div>
-         </div>
+        <div className="flex flex-col p-6 space-y-4 relative z-10">
+          <div className="flex justify-center mb-4">
+            <Button
+              onClick={() =>
+                setViewMode(
+                  viewMode === "individual" ? "portfolio" : "individual"
+                )
+              }
+              variant="default"
+            >
+              {viewMode === "individual" ? "Portfolio" : "Individual"}
+            </Button>
+          </div>
+          <StockGraph
+            stocks={pets}
+            isSimulating={isSimulating}
+            currentSimIndex={currentSimIndex}
+            simulationData={simulationData}
+            viewMode={viewMode}
+          />
+          <div className="flex flex-col gap-4 w-full px-8 justify-center">
+            {selectedSymbols.map((symbol) => (
+              <div
+                key={`info-${symbol}`}
+                className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm"
+              >
+                <div className="text-center space-y-3">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {symbol}
+                  </h3>
+
+                  <StockDataDisplay
+                    data={pets[symbol]?.data}
+                    error={error}
+                    symbol={symbol}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
