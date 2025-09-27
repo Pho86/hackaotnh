@@ -14,7 +14,7 @@ export default function StockDataDisplay({
     }
 
     if (!data) {
-        return <p className="text-gray-600">Ready to invest?</p>;
+        return <p className="text-gray-600">Loading stocks...</p>;
     }
 
     return (

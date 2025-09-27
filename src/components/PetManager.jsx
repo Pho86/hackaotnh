@@ -205,6 +205,7 @@ export default function PetManager({ symbols = ["AAPL"] }) {
                     mood={pets[symbol]?.mood || "neutral"}
                     isSimulating={isSimulating}
                     symbol={symbol}
+                    data={pets[symbol]?.data}
                 />
             ))}
 
