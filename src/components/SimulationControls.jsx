@@ -13,36 +13,34 @@ export default function SimulationControls({
     canStartSimulation = true
 }) {
     return (
-        <div className="flex flex-col items-center space-y-2 bg-zinc-150 p-4 rounded-lg">
-            <h2 className="font-semibold">Grindset Goldfish</h2>
-
+        <div className="flex flex-row items-center space-y-2 bg-zinc-150 rounded-lg">
             <div className="flex space-x-2">
                 <Button
                     onClick={onStartSimulation}
                     disabled={isSimulating || !canStartSimulation}
                     variant="success"
                 >
-                    {isSimulating ? "Simulating..." : "Start Life"}
+                    {isSimulating ? "Simulating..." : "Start"}
                 </Button>
 
-                <Button
+                {/* <Button
                     onClick={onStopSimulation}
                     disabled={!isSimulating}
                     variant="danger"
                 >
                     Stop
-                </Button>
+                </Button> */}
             </div>
 
             <div className="flex flex-col items-center space-y-2">
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                     <label className="text-sm font-medium">Speed:</label>
                     <span className="text-sm bg-gray-100 px-2 py-1 rounded">
                         {simulationSpeed}ms
                     </span>
-                </div>
+                </div> */}
 
-                <div className="flex space-x-2">
+                {/* <div className="flex space-x-2">
                     <Button
                         onClick={() => onSpeedChange(500)}
 
@@ -65,10 +63,10 @@ export default function SimulationControls({
                     >
                         Slow
                     </Button>
-                </div>
+                </div> */}
 
                 {/* Speed Slider */}
-                <div className="flex items-center space-x-2 w-full max-w-xs">
+                {/* <div className="flex items-center space-x-2 w-full max-w-xs">
                     <span className="text-xs text-gray-500">500ms</span>
                     <input
                         type="range"
@@ -80,7 +78,7 @@ export default function SimulationControls({
                         className="flex-1"
                     />
                     <span className="text-xs text-gray-500">2000ms</span>
-                </div>
+                </div> */}
             </div>
 
             {isSimulating && simulationDataLength > 0 && (

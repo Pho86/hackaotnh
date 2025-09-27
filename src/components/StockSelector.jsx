@@ -69,11 +69,9 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                <h3 className="text-lg font-semibold mb-3">Grindset Goldfish</h3>
-
-                <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
+            <div className="">
+                <div className="">
+                    <div className="flex flex-row gap-2">
                         {selectedStocks.map(symbol => {
                             const stock = popularStocks.find(s => s.symbol === symbol);
                             return (
@@ -89,16 +87,16 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                             );
                         })}
                     </div>
-                    {selectedStocks.length === 0 && (
+                    {/* {selectedStocks.length === 0 && (
                         <p className="text-gray-500 text-sm">No stocks selected</p>
-                    )}
+                    )} */}
                 </div>
 
                 <div className="relative" ref={dropdownRef}>
                     <Button
                         onClick={() => setIsOpen(!isOpen)}
                         disabled={isSimulating}
-                        className="w-full flex items-center justify-between"
+                        className="flex items-center justify-between"
                         variant="default"
                     >
                         <span>Add Stocks</span>
@@ -152,12 +150,12 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     )}
                 </div>
 
-                <p className="text-xs text-gray-500 mt-2">
+                {/* <p className="text-xs text-gray-500 mt-2">
                     {isSimulating
                         ? "Stock selection disabled during simulation"
                         : "Select up to 5 stocks. Each fish represents a different stock"
                     }
-                </p>
+                </p> */}
             </div>
         </div>
     );

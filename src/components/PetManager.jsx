@@ -229,17 +229,50 @@ export default function PetManager() {
           symbol={symbol}
           data={pets[symbol]?.data}
         />
+        
       ))}
+      {/* Portfolio Button for View Mode */}
+        <div className="flex flex-row mb-4 p-4 space-x-4">
+            <Button 
+            onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
+            variant="default"
+            >
+            {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
+            </Button>
+            {/* Start button */}
+            <SimulationControls
+            isSimulating={isSimulating}
+            onStartSimulation={startSimulation}
+            onStopSimulation={stopSimulation}
+            simulationSpeed={simulationSpeed}
+            onSpeedChange={setSimulationSpeed}
+            currentSimIndex={currentSimIndex}
+            simulationDataLength={Math.max(
+                ...selectedSymbols.map((symbol) =>
+                simulationData[symbol] ? simulationData[symbol].length : 0
+                )
+            )}
+            simulationData={simulationData}
+            canStartSimulation={canStartSimulation && !isLoadingHistorical}
+            />
+            {!isSimulating && (
+            <StockSelector
+                selectedStocks={selectedSymbols}
+                onStocksChange={setSelectedSymbols}
+                isSimulating={isSimulating}
+            />
+            )}
+        </div>
 
       <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
-        {!isSimulating && (
+        {/* {!isSimulating && (
           <StockSelector
             selectedStocks={selectedSymbols}
             onStocksChange={setSelectedSymbols}
             isSimulating={isSimulating}
           />
-        )}
-        <SimulationControls
+        )} */}
+        {/* <SimulationControls
           isSimulating={isSimulating}
           onStartSimulation={startSimulation}
           onStopSimulation={stopSimulation}
@@ -253,17 +286,17 @@ export default function PetManager() {
           )}
           simulationData={simulationData}
           canStartSimulation={canStartSimulation && !isLoadingHistorical}
-        />
+        /> */}
 
          <div className="flex flex-col p-6 space-y-4 relative z-10">
-           <div className="flex justify-center mb-4">
+           {/* <div className="flex justify-center mb-4">
              <Button 
                onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
                variant="default"
              >
                {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
              </Button>
-           </div>
+           </div> */}
            <StockGraph
              stocks={pets}
              isSimulating={isSimulating}
