@@ -1,6 +1,19 @@
 import React from "react";
 import PetManager from "./PetManager";
+import backgroundImg from "../assets/background.png";
 
 export default function StockPet() {
-  return <PetManager />;
+    return (
+        <div
+            style={{
+                backgroundImage: `url(${backgroundImg})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                minHeight: "100dvh",
+                width: "100dvw",
+            }}
+        >
+            <PetManager symbols={[SYMBOL]} />
+        </div>
+    );
 }
