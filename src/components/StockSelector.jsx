@@ -65,12 +65,34 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-black/30 rounded-lg p-4 shadow-sm">
+            <div className="">
+                <div className="">
+                    <div className="flex flex-row gap-2">
+                        {selectedStocks.map(symbol => {
+                            const stock = popularStocks.find(s => s.symbol === symbol);
+                            return (
+                                <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                                    <span className="mr-2">{symbol}</span>
+                                    <button
+                                        onClick={() => removeStock(symbol)}
+                                        className="text-blue-600 hover:text-blue-800 font-bold"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    {/* {selectedStocks.length === 0 && (
+                        <p className="text-gray-500 text-sm">No stocks selected</p>
+                    )} */}
+                </div>
+
                 <div className="relative" ref={dropdownRef}>
                     <Button
                         onClick={() => setIsOpen(!isOpen)}
                         disabled={isSimulating}
-                        className="w-full flex items-center justify-between"
+                        className="flex items-center justify-between"
                         variant="default"
                     >
                         <span>Add Stocks</span>
