@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function StockDataDisplay({ 
-    data, 
+export default function StockDataDisplay({
+    data,
     error,
-    symbol 
+    symbol
 }) {
     if (error && !data) {
         return (
