@@ -6,12 +6,12 @@ export default function StockGraph({
     isSimulating, 
     currentSimIndex, 
     simulationData,
+    viewMode = 'individual',
     width = 800, 
     height = 400 
 }) {
     const canvasRef = useRef(null);
     const [points, setPoints] = useState({});
-    const [viewMode, setViewMode] = useState('individual');
     const [previousStockSymbols, setPreviousStockSymbols] = useState([]); 
     
     const colors = {};
@@ -26,9 +26,10 @@ export default function StockGraph({
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.fillRect(0, 0, width, height);
 
-        ctx.strokeStyle = '#E5E7EB';
+        ctx.strokeStyle = '#374151';
         ctx.lineWidth = 1;
         
         // vertical grid lines
@@ -92,7 +93,7 @@ export default function StockGraph({
                 const valueRange = maxValue - minValue;
                 const valuePadding = valueRange * 0.1;
                 
-                ctx.strokeStyle = '#9CA3AF';
+                ctx.strokeStyle = '#4B5563';
                 ctx.lineWidth = 1;
                 ctx.setLineDash([3, 3]);
                 
@@ -105,7 +106,7 @@ export default function StockGraph({
                     ctx.lineTo(width, y);
                     ctx.stroke();
                     
-                    ctx.fillStyle = '#6B7280';
+                    ctx.fillStyle = '#D1D5DB';
                     ctx.font = '12px Arial';
                     ctx.textAlign = 'left';
                     ctx.fillText(`$${value.toFixed(2)}`, 5, y - 5);
@@ -215,15 +216,16 @@ export default function StockGraph({
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
                     const y = height - (normalizedPrice * height);
                     
-                    // Switch to dashed line when entering prediction mode
-                    if (point.isPrediction && !isInPrediction) {
+                    const shouldShowPrediction = point.isPrediction && !isSimulating;
+                    
+                    if (shouldShowPrediction && !isInPrediction) {
                         ctx.stroke();
                         ctx.setLineDash([8, 4]);
-                        ctx.strokeStyle = color + '80'; // Add transparency
+                        ctx.strokeStyle = color + '80';
                         ctx.beginPath();
                         ctx.moveTo(x, y);
                         isInPrediction = true;
-                    } else if (!point.isPrediction && isInPrediction) {
+                    } else if (!shouldShowPrediction && isInPrediction) {
                         ctx.stroke();
                         ctx.setLineDash([]);
                         ctx.strokeStyle = color;
@@ -243,14 +245,16 @@ export default function StockGraph({
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
                     const y = height - (normalizedPrice * height);
                     
-                    if (point.isPrediction) {
+                    const shouldShowPrediction = point.isPrediction && !isSimulating;
+                    
+                    if (shouldShowPrediction) {
                         // hollow circles for predictions
                         ctx.strokeStyle = color + '80';
                         ctx.lineWidth = 2;
                         ctx.beginPath();
                         ctx.arc(x, y, 3, 0, 2 * Math.PI);
                         ctx.stroke();
-                    } else {
+                    } else if (!point.isPrediction) {
                         // filled circles for historical data
                         ctx.fillStyle = color;
                         ctx.beginPath();
@@ -261,7 +265,7 @@ export default function StockGraph({
             });
         }
 
-    }, [points, width, height, viewMode]);
+    }, [points, width, height, viewMode, isSimulating]);
 
     useEffect(() => {
         if (!isSimulating || !simulationData) return;
@@ -315,16 +319,16 @@ export default function StockGraph({
     }, [stocks, previousStockSymbols]);
 
     return (
-        <div className="bg-white border h-max border-gray-200 rounded-lg p-4 shadow-sm">
+        <div className="bg-black/30 h-max rounded-lg p-4 shadow-lg">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold">Stock Performance Graph</h3>
+                <h3 className="text-lg font-semibold text-white">Stock Performance Graph</h3>
             </div>
             
             <canvas
                 ref={canvasRef}
                 width={width}
                 height={height}
-                className="border border-gray-300 rounded"
+                className="border border-gray-600 rounded"
             />
             
             <div className="flex flex-wrap gap-4 mt-4">
@@ -335,22 +339,16 @@ export default function StockGraph({
                                 className="w-3 h-3 rounded-full" 
                                 style={{ backgroundColor: getStockColor(symbol) }}
                             />
-                            <span className="text-sm font-medium">{symbol}</span>
+                            <span className="text-sm font-medium text-white">{symbol}</span>
                         </div>
                     ))
                 ) : (
                     <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-purple-600" />
-                        <span className="text-sm font-medium">Total Portfolio Value</span>
+                        <div className="w-3 h-3 rounded-full bg-purple-400" />
+                        <span className="text-sm font-medium text-white">Total Portfolio Value</span>
                     </div>
                 )}
             </div>
-            
-            {!isSimulating && Object.keys(points).length === 0 && (
-                <p className="text-gray-500 text-sm text-center">
-                    Start the simulation to see the graph
-                </p>
-            )}
         </div>
     );
 }

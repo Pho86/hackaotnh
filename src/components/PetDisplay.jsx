@@ -25,6 +25,20 @@ export default function PetDisplay({
     }
   };
 
+  const getTextColor = () => {
+    if (!data || typeof data.changePercent !== "number") {
+      return "text-gray-700"; 
+    }
+    
+    if (data.changePercent > 0) {
+      return "text-green-600";
+    } else if (data.changePercent < 0) {
+      return "text-red-600";
+    } else {
+      return "text-gray-700"; 
+    }
+  };
+
   useEffect(() => {
     if (!isSimulating) return;
 
@@ -106,7 +120,7 @@ export default function PetDisplay({
         >
           {getPetEmoji()}
         </div>
-        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium text-gray-700 bg-white/90 px-2 py-1 rounded shadow-sm whitespace-nowrap border">
+        <div className={`absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-medium ${getTextColor()} bg-white/90 px-2 py-1 rounded shadow-sm whitespace-nowrap border`}>
           {symbol}{" "}
           {data && typeof data.changePercent === "number"
             ? `(${

@@ -1,18 +1,37 @@
-# React + Vite
+# Grindset Goldfish
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FallHacks 2025
+Grindset Goldfish is a stock market simulation app built for FallHacks 2025.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Simulate Stock Portfolios:** Add up to 5 stocks and simulate their performance over time.
+- **Interactive Graphs:** Visualize individual stock prices or total portfolio value.
+- **Stock Selector:** Search and select from a list of popular stocks.
 
-## React Compiler
+## Getting Started
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+1. **Clone the repository:**
+   ```
+   git clone https://github.com/yourusername/grindset-goldfish.git
+   cd grindset-goldfish
+   ```
 
-Note: This will impact Vite dev & build performances.
+2. **Install dependencies:**
+   ```
+   npm install
+   ```
 
-## Expanding the ESLint configuration
+3. **Run the app:**
+   ```
+   npm run dev
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. **Open in your browser:**
+   Visit [http://localhost:5173](http://localhost:5173)
+
+## Usage
+
+- Click **Add Stocks** to search and select up to 5 stocks.
+- Start the simulation to see how your portfolio performs.
+- Switch between individual stock view and portfolio view.

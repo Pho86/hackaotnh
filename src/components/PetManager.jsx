@@ -6,6 +6,7 @@ import SimulationControls from './SimulationControls';
 import StockSelector from './StockSelector';
 import StockGraph from './StockGraph';
 import Button from './Button';
+import SelectedStocks from './SelectedStocks';
 
 export default function PetManager() {
     const [selectedSymbols, setSelectedSymbols] = useState([]);
@@ -233,11 +234,17 @@ export default function PetManager() {
 
       <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
         {!isSimulating && (
-          <StockSelector
-            selectedStocks={selectedSymbols}
-            onStocksChange={setSelectedSymbols}
-            isSimulating={isSimulating}
-          />
+          <>
+            <SelectedStocks 
+              selectedStocks={selectedSymbols}
+              onRemoveStock={(symbol) => setSelectedSymbols(selectedSymbols.filter(s => s !== symbol))}
+            />
+            <StockSelector
+              selectedStocks={selectedSymbols}
+              onStocksChange={setSelectedSymbols}
+              isSimulating={isSimulating}
+            />
+          </>
         )}
         <SimulationControls
           isSimulating={isSimulating}
@@ -252,6 +259,7 @@ export default function PetManager() {
             )
           )}
           simulationData={simulationData}
+          pets={pets}
           canStartSimulation={canStartSimulation && !isLoadingHistorical}
         />
 
@@ -273,7 +281,7 @@ export default function PetManager() {
            />
            <div className="flex flex-col gap-4 w-full px-8 justify-center">
              {selectedSymbols.map(symbol => (
-               <div key={`info-${symbol}`} className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
+               <div key={`info-${symbol}`} className="bg-black/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
                  <div className="text-center space-y-3">
                    <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
                    <StockDataDisplay

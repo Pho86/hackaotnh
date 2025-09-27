@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Button from './Button';
 import stocksData from '../data/stocks.json';
 
-export default function StockSelector({ selectedStocks, onStocksChange, isSimulating }) {
+export default function StockSelector({ selectedStocks, onStocksChange, isSimulating, onRemoveStock }) {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const dropdownRef = useRef(null);
@@ -29,10 +29,6 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
 
         setIsOpen(false);
         setSearchTerm('');
-    };
-
-    const removeStock = (symbol) => {
-        onStocksChange(selectedStocks.filter(s => s !== symbol));
     };
 
     useEffect(() => {
@@ -69,31 +65,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
-                <h3 className="text-lg font-semibold mb-3">Grindset Goldfish</h3>
-
-                <div className="mb-4">
-                    <div className="flex flex-wrap gap-2">
-                        {selectedStocks.map(symbol => {
-                            const stock = popularStocks.find(s => s.symbol === symbol);
-                            return (
-                                <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                    <span className="mr-2">{symbol}</span>
-                                    <button
-                                        onClick={() => removeStock(symbol)}
-                                        className="text-blue-600 hover:text-blue-800 font-bold"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            );
-                        })}
-                    </div>
-                    {selectedStocks.length === 0 && (
-                        <p className="text-gray-500 text-sm">No stocks selected</p>
-                    )}
-                </div>
-
+            <div className="bg-black/30 rounded-lg p-4 shadow-sm">
                 <div className="relative" ref={dropdownRef}>
                     <Button
                         onClick={() => setIsOpen(!isOpen)}
@@ -108,7 +80,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     </Button>
 
                     {isOpen && (
-                        <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-80 overflow-y-auto">
+                        <div className="absolute z-10 w-full mt-1 bg-black/90 border border-neutral-00 rounded-md shadow-lg max-h-80 overflow-y-auto">
                             <div className="p-2 border-b border-gray-200">
                                 <input
                                     type="text"
@@ -129,7 +101,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                                                 key={stock.symbol}
                                                 onClick={() => handleStockToggle(stock)}
                                                 disabled={!isSelected && selectedStocks.length >= 5}
-                                                className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center justify-between ${isSelected ? 'bg-blue-50 text-blue-700' : ''
+                                                className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-blue-700 flex items-center justify-between ${isSelected ? 'bg-blue-800 text-blue-200' : ''
                                                     } ${!isSelected && selectedStocks.length >= 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
                                             >
                                                 <div>
@@ -151,13 +123,6 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                         </div>
                     )}
                 </div>
-
-                <p className="text-xs text-gray-500 mt-2">
-                    {isSimulating
-                        ? "Stock selection disabled during simulation"
-                        : "Select up to 5 stocks. Each fish represents a different stock"
-                    }
-                </p>
             </div>
         </div>
     );
