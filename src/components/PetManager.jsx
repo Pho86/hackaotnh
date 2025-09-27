@@ -18,268 +18,275 @@ export default function PetManager() {
     const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
     const [viewMode, setViewMode] = useState('individual');
 
-    useEffect(() => {
-        const initialPets = {};
-        selectedSymbols.forEach(symbol => {
-            initialPets[symbol] = {
-                data: null,
-                mood: "neutral",
-                historicalData: []
-            };
+  useEffect(() => {
+    const initialPets = {};
+    selectedSymbols.forEach((symbol) => {
+      initialPets[symbol] = {
+        data: null,
+        mood: "neutral",
+        historicalData: [],
+      };
+    });
+    setPets(initialPets);
+  }, [selectedSymbols]);
+
+  const updateMood = (changePercent) => {
+    if (changePercent > 1) return "happy";
+    if (changePercent < -1) return "sad";
+    return "neutral";
+  };
+
+  const fetchAllRealTimeData = async () => {
+    if (isSimulating) return;
+
+    try {
+      setError(null);
+      const { results, errors } =
+        await fakeStockApiService.fetchMultipleSymbols(selectedSymbols);
+
+      setPets((prevPets) => {
+        const updatedPets = { ...prevPets };
+
+        results.forEach((result) => {
+          updatedPets[result.symbol] = {
+            ...updatedPets[result.symbol],
+            data: result,
+            mood: updateMood(result.changePercent),
+          };
         });
-        setPets(initialPets);
-    }, [selectedSymbols]);
 
-    const updateMood = (changePercent) => {
-        if (changePercent > 1) return "happy";
-        if (changePercent < -1) return "sad";
-        return "neutral";
-    };
+        return updatedPets;
+      });
 
-    const fetchAllRealTimeData = async () => {
-        if (isSimulating) return;
+      if (errors.length > 0) {
+        console.warn("Some API calls failed:", errors);
+      }
+    } catch (err) {
+      console.error("Error fetching real-time data:", err);
+      setError(`Failed to fetch stock data: ${err.message}`);
+    }
+  };
 
-        try {
-            setError(null);
-            const { results, errors } = await fakeStockApiService.fetchMultipleSymbols(selectedSymbols);
+  const fetchAllHistoricalData = async () => {
+    if (selectedSymbols.length === 0) return;
 
-            setPets(prevPets => {
-                const updatedPets = { ...prevPets };
+    try {
+      setError(null);
+      setIsLoadingHistorical(true);
 
-                results.forEach(result => {
-                    updatedPets[result.symbol] = {
-                        ...updatedPets[result.symbol],
-                        data: result,
-                        mood: updateMood(result.changePercent)
-                    };
-                });
+      const symbolsToFetch = selectedSymbols.filter(
+        (symbol) =>
+          !pets[symbol]?.historicalData ||
+          pets[symbol].historicalData.length === 0
+      );
 
-                return updatedPets;
-            });
+      if (symbolsToFetch.length === 0) {
+        setIsLoadingHistorical(false);
+        return;
+      }
 
-            if (errors.length > 0) {
-                console.warn("Some API calls failed:", errors);
-            }
-        } catch (err) {
-            console.error("Error fetching real-time data:", err);
-            setError(`Failed to fetch stock data: ${err.message}`);
-        }
-    };
+      const { results, errors } =
+        await fakeStockApiService.fetchMultipleHistoricalData(
+          symbolsToFetch,
+          150 // 150 days historical + 50 days predictions = 200 total
+        );
 
-    const fetchAllHistoricalData = async () => {
-        if (selectedSymbols.length === 0) return;
+      setSimulationData((prevData) => ({
+        ...prevData,
+        ...results,
+      }));
 
-        try {
-            setError(null);
-            setIsLoadingHistorical(true);
+      setPets((prevPets) => {
+        const updatedPets = { ...prevPets };
+        symbolsToFetch.forEach((symbol) => {
+          if (results[symbol]) {
+            updatedPets[symbol] = {
+              ...updatedPets[symbol],
+              historicalData: results[symbol],
+            };
+          }
+        });
+        return updatedPets;
+      });
 
-            const symbolsToFetch = selectedSymbols.filter(symbol =>
-                !pets[symbol]?.historicalData || pets[symbol].historicalData.length === 0
-            );
+      if (Object.keys(errors).length > 0) {
+        const errorSymbols = Object.keys(errors);
+        setError(`Failed to fetch data for: ${errorSymbols.join(", ")}`);
+      }
+    } catch (err) {
+      console.error("Error fetching historical data:", err);
+      setError(`Failed to fetch historical data: ${err.message}`);
+    } finally {
+      setIsLoadingHistorical(false);
+    }
+  };
 
-            if (symbolsToFetch.length === 0) {
-                setIsLoadingHistorical(false);
-                return;
-            }
+  useEffect(() => {
+    if (isSimulating || Object.keys(pets).length === 0) return;
 
-            const { results, errors } = await fakeStockApiService.fetchMultipleHistoricalData(
-                symbolsToFetch,
-                150, // 150 days historical + 50 days predictions = 200 total
-            );
+    fetchAllRealTimeData();
 
-            setSimulationData(prevData => ({
-                ...prevData,
-                ...results
-            }));
+    const interval = setInterval(fetchAllRealTimeData, 30 * 60 * 1000);
+    return () => clearInterval(interval);
+  }, [isSimulating, selectedSymbols]);
 
-            setPets(prevPets => {
-                const updatedPets = { ...prevPets };
-                symbolsToFetch.forEach(symbol => {
-                    if (results[symbol]) {
-                        updatedPets[symbol] = {
-                            ...updatedPets[symbol],
-                            historicalData: results[symbol]
-                        };
-                    }
-                });
-                return updatedPets;
-            });
+  useEffect(() => {
+    if (Object.keys(pets).length > 0) {
+      fetchAllHistoricalData();
+    }
+  }, [Object.keys(pets).length]);
 
-            if (Object.keys(errors).length > 0) {
-                const errorSymbols = Object.keys(errors);
-                setError(`Failed to fetch data for: ${errorSymbols.join(', ')}`);
-            }
+  useEffect(() => {
+    if (!isSimulating || Object.keys(simulationData).length === 0) return;
 
-        } catch (err) {
-            console.error("Error fetching historical data:", err);
-            setError(`Failed to fetch historical data: ${err.message}`);
-        } finally {
-            setIsLoadingHistorical(false);
-        }
-    };
-
-    useEffect(() => {
-        if (isSimulating || Object.keys(pets).length === 0) return;
-
-        fetchAllRealTimeData();
-
-        const interval = setInterval(fetchAllRealTimeData, 30 * 60 * 1000);
-        return () => clearInterval(interval);
-    }, [isSimulating, selectedSymbols]);
-
-    useEffect(() => {
-        if (Object.keys(pets).length > 0) {
-            fetchAllHistoricalData();
-        }
-    }, [Object.keys(pets).length]);
-
-    useEffect(() => {
-        if (!isSimulating || Object.keys(simulationData).length === 0) return;
-
-        const interval = setInterval(() => {
-            setCurrentSimIndex(prev => {
-                const allSymbolsHaveData = selectedSymbols.every(symbol =>
-                    simulationData[symbol] && simulationData[symbol].length > 0
-                );
-
-                if (!allSymbolsHaveData) return prev;
-
-                const maxLength = Math.max(...selectedSymbols.map(symbol => simulationData[symbol].length));
-                const nextIndex = prev + 1;
-
-                if (nextIndex >= maxLength) {
-                    setIsSimulating(false);
-                    return prev;
-                }
-
-                setPets(prevPets => {
-                    const updatedPets = { ...prevPets };
-
-                    selectedSymbols.forEach(symbol => {
-                        if (simulationData[symbol] && simulationData[symbol][nextIndex]) {
-                            const currentData = simulationData[symbol][nextIndex];
-                            const prevData = simulationData[symbol][prev] || currentData;
-
-                            const changePercent = prevData ?
-                                ((currentData.price - prevData.price) / prevData.price) * 100 : 0;
-
-                            updatedPets[symbol] = {
-                                ...updatedPets[symbol],
-                                data: {
-                                    ...currentData,
-                                    changePercent
-                                },
-                                mood: updateMood(changePercent)
-                            };
-                        }
-                    });
-
-                    return updatedPets;
-                });
-
-                return nextIndex;
-            });
-        }, simulationSpeed);
-
-        return () => clearInterval(interval);
-    }, [isSimulating, simulationData, simulationSpeed, selectedSymbols]);
-
-    const startSimulation = async () => {
-        const hasHistoricalData = selectedSymbols.some(symbol =>
+    const interval = setInterval(() => {
+      setCurrentSimIndex((prev) => {
+        const allSymbolsHaveData = selectedSymbols.every(
+          (symbol) =>
             simulationData[symbol] && simulationData[symbol].length > 0
         );
 
-        if (!hasHistoricalData) {
-            await fetchAllHistoricalData();
-        }
+        if (!allSymbolsHaveData) return prev;
 
-        const stillHasData = selectedSymbols.some(symbol =>
-            simulationData[symbol] && simulationData[symbol].length > 0
+        const maxLength = Math.max(
+          ...selectedSymbols.map((symbol) => simulationData[symbol].length)
         );
+        const nextIndex = prev + 1;
 
-        if (stillHasData) {
-            setCurrentSimIndex(0);
-            setIsSimulating(true);
-            setError(null);
+        if (nextIndex >= maxLength) {
+          setIsSimulating(false);
+          return prev;
         }
-    };
 
-    const stopSimulation = () => {
-        setIsSimulating(false);
-    };
+        setPets((prevPets) => {
+          const updatedPets = { ...prevPets };
 
-    const canStartSimulation = selectedSymbols.some(symbol =>
-        simulationData[symbol] && simulationData[symbol].length > 0
+          selectedSymbols.forEach((symbol) => {
+            if (simulationData[symbol] && simulationData[symbol][nextIndex]) {
+              const currentData = simulationData[symbol][nextIndex];
+              const prevData = simulationData[symbol][prev] || currentData;
+
+              const changePercent = prevData
+                ? ((currentData.price - prevData.price) / prevData.price) * 100
+                : 0;
+
+              updatedPets[symbol] = {
+                ...updatedPets[symbol],
+                data: {
+                  ...currentData,
+                  changePercent,
+                },
+                mood: updateMood(changePercent),
+              };
+            }
+          });
+
+          return updatedPets;
+        });
+
+        return nextIndex;
+      });
+    }, simulationSpeed);
+
+    return () => clearInterval(interval);
+  }, [isSimulating, simulationData, simulationSpeed, selectedSymbols]);
+
+  const startSimulation = async () => {
+    const hasHistoricalData = selectedSymbols.some(
+      (symbol) => simulationData[symbol] && simulationData[symbol].length > 0
     );
 
-    return (
-        <>
-            {selectedSymbols.map(symbol => (
-                <PetDisplay
-                    key={symbol}
-                    mood={pets[symbol]?.mood || "neutral"}
-                    isSimulating={isSimulating}
-                    symbol={symbol}
-                    data={pets[symbol]?.data}
-                />
-            ))}
+    if (!hasHistoricalData) {
+      await fetchAllHistoricalData();
+    }
 
-            <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
-
-                {!isSimulating && (
-                    <StockSelector
-                        selectedStocks={selectedSymbols}
-                        onStocksChange={setSelectedSymbols}
-                        isSimulating={isSimulating}
-                    />
-                )}
-                <SimulationControls
-                    isSimulating={isSimulating}
-                    onStartSimulation={startSimulation}
-                    onStopSimulation={stopSimulation}
-                    simulationSpeed={simulationSpeed}
-                    onSpeedChange={setSimulationSpeed}
-                    currentSimIndex={currentSimIndex}
-                    simulationDataLength={Math.max(...selectedSymbols.map(symbol =>
-                        simulationData[symbol] ? simulationData[symbol].length : 0
-                    ))}
-                    simulationData={simulationData}
-                    canStartSimulation={canStartSimulation && !isLoadingHistorical}
-                />
-
-                <div className='flex flex-col p-6 space-y-4 relative z-10'>
-                    <div className="flex justify-center mb-4">
-                        <Button 
-                            onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
-                            variant="default"
-                        >
-                            {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
-                        </Button>
-                    </div>
-                    <StockGraph
-                        stocks={pets}
-                        isSimulating={isSimulating}
-                        currentSimIndex={currentSimIndex}
-                        simulationData={simulationData}
-                        viewMode={viewMode}
-                    />
-                    <div className="flex flex-col gap-4 w-full px-8 justify-center">
-                        {selectedSymbols.map(symbol => (
-                            <div key={`info-${symbol}`} className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
-                                <div className="text-center space-y-3">
-                                    <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
-
-                                    <StockDataDisplay
-                                        data={pets[symbol]?.data}
-                                        error={error}
-                                        symbol={symbol}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </>
+    const stillHasData = selectedSymbols.some(
+      (symbol) => simulationData[symbol] && simulationData[symbol].length > 0
     );
-};
+
+    if (stillHasData) {
+      setCurrentSimIndex(0);
+      setIsSimulating(true);
+      setError(null);
+    }
+  };
+
+  const stopSimulation = () => {
+    setIsSimulating(false);
+  };
+
+  const canStartSimulation = selectedSymbols.some(
+    (symbol) => simulationData[symbol] && simulationData[symbol].length > 0
+  );
+
+  return (
+    <>
+      {selectedSymbols.map((symbol) => (
+        <PetDisplay
+          key={symbol}
+          mood={pets[symbol]?.mood || "neutral"}
+          isSimulating={isSimulating}
+          symbol={symbol}
+          data={pets[symbol]?.data}
+        />
+      ))}
+
+      <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
+        {!isSimulating && (
+          <StockSelector
+            selectedStocks={selectedSymbols}
+            onStocksChange={setSelectedSymbols}
+            isSimulating={isSimulating}
+          />
+        )}
+        <SimulationControls
+          isSimulating={isSimulating}
+          onStartSimulation={startSimulation}
+          onStopSimulation={stopSimulation}
+          simulationSpeed={simulationSpeed}
+          onSpeedChange={setSimulationSpeed}
+          currentSimIndex={currentSimIndex}
+          simulationDataLength={Math.max(
+            ...selectedSymbols.map((symbol) =>
+              simulationData[symbol] ? simulationData[symbol].length : 0
+            )
+          )}
+          simulationData={simulationData}
+          canStartSimulation={canStartSimulation && !isLoadingHistorical}
+        />
+
+         <div className="flex flex-col p-6 space-y-4 relative z-10">
+           <div className="flex justify-center mb-4">
+             <Button 
+               onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
+               variant="default"
+             >
+               {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
+             </Button>
+           </div>
+           <StockGraph
+             stocks={pets}
+             isSimulating={isSimulating}
+             currentSimIndex={currentSimIndex}
+             simulationData={simulationData}
+             viewMode={viewMode}
+           />
+           <div className="flex flex-col gap-4 w-full px-8 justify-center">
+             {selectedSymbols.map(symbol => (
+               <div key={`info-${symbol}`} className="bg-white/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
+                 <div className="text-center space-y-3">
+                   <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
+                   <StockDataDisplay
+                     data={pets[symbol]?.data}
+                     error={error}
+                     symbol={symbol}
+                   />
+                 </div>
+               </div>
+             ))}
+           </div>
+         </div>
+      </div>
+    </>
+  );
+}
