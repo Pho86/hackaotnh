@@ -5,6 +5,7 @@ import StockDataDisplay from './StockDataDisplay';
 import SimulationControls from './SimulationControls';
 import StockSelector from './StockSelector';
 import StockGraph from './StockGraph';
+import Button from './Button';
 
 export default function PetManager() {
     const [selectedSymbols, setSelectedSymbols] = useState([]);
@@ -15,6 +16,7 @@ export default function PetManager() {
     const [simulationSpeed, setSimulationSpeed] = useState(1000);
     const [error, setError] = useState(null);
     const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
+    const [viewMode, setViewMode] = useState('individual');
 
     useEffect(() => {
         const initialPets = {};
@@ -245,12 +247,21 @@ export default function PetManager() {
                     canStartSimulation={canStartSimulation && !isLoadingHistorical}
                 />
 
-                <div className='flex p-6 space-y-4 relative z-10'>
+                <div className='flex flex-col p-6 space-y-4 relative z-10'>
+                    <div className="flex justify-center mb-4">
+                        <Button 
+                            onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
+                            variant="default"
+                        >
+                            {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
+                        </Button>
+                    </div>
                     <StockGraph
                         stocks={pets}
                         isSimulating={isSimulating}
                         currentSimIndex={currentSimIndex}
                         simulationData={simulationData}
+                        viewMode={viewMode}
                     />
                     <div className="flex flex-col gap-4 w-full px-8 justify-center">
                         {selectedSymbols.map(symbol => (
