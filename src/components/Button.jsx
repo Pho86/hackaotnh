@@ -1,7 +1,7 @@
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
 
-const Button = ({ 
+export default function Button({ 
     children, 
     variant = 'default', 
     disabled = false, 
@@ -9,7 +9,7 @@ const Button = ({
     className, 
     type = 'button',
     ...props 
-}) => {
+}) {
     const baseClasses = 'h-11 px-4 py-2 rounded-lg font-medium text-sm cursor-pointer transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
     
     let variantClasses = '';
@@ -37,4 +37,3 @@ const Button = ({
     );
 };
 
-export default Button;

@@ -6,17 +6,17 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const dropdownRef = useRef(null);
-    
+
     const popularStocks = stocksData.stocks;
-    
-    const filteredStocks = popularStocks.filter(stock => 
+
+    const filteredStocks = popularStocks.filter(stock =>
         stock.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
         stock.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const handleStockToggle = (stock) => {
         const isSelected = selectedStocks.includes(stock.symbol);
-        
+
         if (isSelected) {
             onStocksChange(selectedStocks.filter(symbol => symbol !== stock.symbol));
         } else {
@@ -26,9 +26,9 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                 alert("Maximum 5 stocks allowed for optimal performance");
             }
         }
-        
+
         setIsOpen(false);
-        setSearchTerm(''); 
+        setSearchTerm('');
     };
 
     const removeStock = (symbol) => {
@@ -46,7 +46,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
                 setIsOpen(false);
-                setSearchTerm(''); 
+                setSearchTerm('');
             }
         };
 
@@ -71,7 +71,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
         <div className="w-full max-w-md">
             <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
                 <h3 className="text-lg font-semibold mb-3">Grindset Goldfish</h3>
-                
+
                 <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                         {selectedStocks.map(symbol => {
@@ -119,7 +119,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                                     autoFocus
                                 />
                             </div>
-                            
+
                             <div className="max-h-48 overflow-y-auto">
                                 {filteredStocks.length > 0 ? (
                                     filteredStocks.map(stock => {
@@ -129,9 +129,8 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                                                 key={stock.symbol}
                                                 onClick={() => handleStockToggle(stock)}
                                                 disabled={!isSelected && selectedStocks.length >= 5}
-                                                className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center justify-between ${
-                                                    isSelected ? 'bg-blue-50 text-blue-700' : ''
-                                                } ${!isSelected && selectedStocks.length >= 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                                className={`w-full text-left px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 flex items-center justify-between ${isSelected ? 'bg-blue-50 text-blue-700' : ''
+                                                    } ${!isSelected && selectedStocks.length >= 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
                                             >
                                                 <div>
                                                     <span className="font-medium">{stock.symbol}</span>
@@ -154,8 +153,8 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                 </div>
 
                 <p className="text-xs text-gray-500 mt-2">
-                    {isSimulating 
-                        ? "Stock selection disabled during simulation" 
+                    {isSimulating
+                        ? "Stock selection disabled during simulation"
                         : "Select up to 5 stocks. Each fish represents a different stock"
                     }
                 </p>

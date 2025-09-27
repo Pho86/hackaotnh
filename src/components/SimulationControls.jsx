@@ -1,21 +1,21 @@
 import React from 'react';
 import Button from './Button';
 
-export default function SimulationControls({ 
-    isSimulating, 
-    onStartSimulation, 
-    onStopSimulation, 
-    simulationSpeed, 
+export default function SimulationControls({
+    isSimulating,
+    onStartSimulation,
+    onStopSimulation,
+    simulationSpeed,
     onSpeedChange,
     currentSimIndex,
     simulationDataLength,
     simulationData,
-    canStartSimulation = true 
+    canStartSimulation = true
 }) {
     return (
         <div className="flex flex-col items-center space-y-2 bg-zinc-150 p-4 rounded-lg">
             <h2 className="font-semibold">Grindset Goldfish</h2>
-            
+
             <div className="flex space-x-2">
                 <Button
                     onClick={onStartSimulation}
@@ -24,7 +24,7 @@ export default function SimulationControls({
                 >
                     {isSimulating ? "Simulating..." : "Start Life"}
                 </Button>
-                
+
                 <Button
                     onClick={onStopSimulation}
                     disabled={!isSimulating}
@@ -41,7 +41,7 @@ export default function SimulationControls({
                         {simulationSpeed}ms
                     </span>
                 </div>
-                
+
                 <div className="flex space-x-2">
                     <Button
                         onClick={() => onSpeedChange(500)}
@@ -66,7 +66,7 @@ export default function SimulationControls({
                         Slow
                     </Button>
                 </div>
-                
+
                 {/* Speed Slider */}
                 <div className="flex items-center space-x-2 w-full max-w-xs">
                     <span className="text-xs text-gray-500">500ms</span>
@@ -83,19 +83,19 @@ export default function SimulationControls({
                 </div>
             </div>
 
-                {isSimulating && simulationDataLength > 0 && (
-                    <div className="text-sm text-gray-600">
-                        <p>Day {currentSimIndex + 1} of {simulationDataLength}</p>
-                        {simulationData && Object.keys(simulationData).length > 0 && (
-                            <p className="text-xs text-gray-500">
-                                Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
-                                {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
-                                    <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
-                                )}
-                            </p>
-                        )}
-                    </div>
-                )}
+            {isSimulating && simulationDataLength > 0 && (
+                <div className="text-sm text-gray-600">
+                    <p>Day {currentSimIndex + 1} of {simulationDataLength}</p>
+                    {simulationData && Object.keys(simulationData).length > 0 && (
+                        <p className="text-xs text-gray-500">
+                            Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
+                            {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
+                                <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
+                            )}
+                        </p>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
