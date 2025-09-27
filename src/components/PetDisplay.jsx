@@ -41,9 +41,11 @@ export default function PetDisplay({ mood = "neutral", isSimulating = true, symb
 
                 let verticalMove = 0;
                 if (data && typeof data.changePercent === 'number') {
-                    verticalMove = (data.changePercent / 10) * 150;
+                    verticalMove = -data.changePercent * 60; 
+                    
+                    verticalMove = Math.max(-400, Math.min(400, verticalMove));
                 } else {
-                    verticalMove = (Math.random() - 0.5) * 200;
+                    verticalMove = (Math.random() - 0.5) * 30;
                 }
 
                 let newY = prev.y + verticalMove;
