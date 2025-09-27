@@ -20,36 +20,52 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${backgroundImg})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "100vh",
-        width: "100vw",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <img
-        src={goldfishImg}
-        alt="Grindset Goldfish"
+    <>
+      <div className="overflow-hidden h-screen w-screen absolute top-0 left-0">
+        <div class="bubble one"></div>
+        <div class="bubble two"></div>
+        <div class="bubble three"></div>
+        <div class="bubble four"></div>
+        <div class="bubble five"></div>
+        <div class="bubble six"></div>
+        <div class="bubble seven"></div>
+        <div class="bubble eight"></div>
+        <div class="bubble nine"></div>
+        <div class="bubble ten"></div>
+      </div>
+      <div
         style={{
-          width: "300px",
-          height: "300px",
-          objectFit: "contain",
-          marginTop: "32px",
-          cursor: "pointer",
-          opacity: fadeIn ? 1 : 0,
-          transition:
-            "opacity 1.2s ease, transform 0.25s cubic-bezier(.4,2,.6,1)",
-          transform: clicked ? "scale(1.12)" : "scale(1)",
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          overflow: "hidden",
+          height: "100dvh",
+          width: "100dvw",
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
         }}
-        onClick={handleStart}
-      />
-    </div>
+      >
+
+        <img
+          src={goldfishImg}
+          alt="Grindset Goldfish"
+          style={{
+            width: "300px",
+            height: "300px",
+            objectFit: "contain",
+            marginTop: "32px",
+            cursor: "pointer",
+            opacity: fadeIn ? 1 : 0,
+            transition:
+              "opacity 1.2s ease, transform 0.25s cubic-bezier(.4,2,.6,1)",
+            transform: clicked ? "scale(1.12)" : "scale(1)",
+          }}
+          onClick={handleStart}
+        />
+      </div>
+    </>
   );
 }

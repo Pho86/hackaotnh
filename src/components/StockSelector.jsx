@@ -83,9 +83,6 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                             );
                         })}
                     </div>
-                    {/* {selectedStocks.length === 0 && (
-                        <p className="text-gray-500 text-sm">No stocks selected</p>
-                    )} */}
                 </div>
 
                 <div className="relative" ref={dropdownRef}>
@@ -102,14 +99,14 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     </Button>
 
                     {isOpen && (
-                        <div className="absolute z-10 w-full mt-1 bg-black/70 border border-neutral-00 rounded-md shadow-lg max-h-80 overflow-y-auto">
-                            <div className="p-2 border-b border-gray-200">
+                        <div className="absolute z-10 w-full mt-1 bg-black/30 border border-neutral-700 rounded-md shadow-lg max-h-80 overflow-y-auto">
+                            <div className="p-2 border-b border-neutral-700">
                                 <input
                                     type="text"
                                     placeholder="Search stocks..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 text-sm border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     autoFocus
                                 />
                             </div>
