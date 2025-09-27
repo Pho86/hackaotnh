@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import StockPet from "./components/StockPet";
+import Home from "./components/Home";
 
 function App() {
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center ">
-      <StockPet />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/stockpet" element={<StockPet />} />
+      </Routes>
+    </Router>
   );
 }
 
