@@ -14,7 +14,7 @@ export default function SimulationControls({
 }) {
     return (
         <div className="flex flex-col items-center space-y-2 bg-zinc-150 p-4 rounded-lg">
-            <h2 className="font-semibold">Fish Simulation</h2>
+            <h2 className="font-semibold">Grindset Goldfish</h2>
             
             <div className="flex space-x-2">
                 <Button
