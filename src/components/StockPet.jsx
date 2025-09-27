@@ -13,7 +13,7 @@ export default function StockPet() {
                 width: "100dvw",
             }}
         >
-            <PetManager symbols={[SYMBOL]} />
+            <PetManager />
         </div>
     );
 }
