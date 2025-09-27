@@ -89,6 +89,126 @@
       "name": "Block Inc.",
       "basePrice": 85.30,
       "color": "#FFD93D"
+    },
+    {
+      "symbol": "INTC",
+      "name": "Intel Corporation",
+      "basePrice": 43.10,
+      "color": "#0071C5"
+    },
+    {
+      "symbol": "CSCO",
+      "name": "Cisco Systems Inc.",
+      "basePrice": 49.70,
+      "color": "#1BA0D7"
+    },
+    {
+      "symbol": "CMCSA",
+      "name": "Comcast Corporation",
+      "basePrice": 43.25,
+      "color": "#6D3F9A"
+    },
+    {
+      "symbol": "PEP",
+      "name": "PepsiCo Inc.",
+      "basePrice": 168.90,
+      "color": "#E53935"
+    },
+    {
+      "symbol": "KO",
+      "name": "The Coca-Cola Company",
+      "basePrice": 60.50,
+      "color": "#F44336"
+    },
+    {
+      "symbol": "WMT",
+      "name": "Walmart Inc.",
+      "basePrice": 180.20,
+      "color": "#007DC5"
+    },
+    {
+      "symbol": "JPM",
+      "name": "JPMorgan Chase & Co.",
+      "basePrice": 195.60,
+      "color": "#2196F3"
+    },
+    {
+      "symbol": "BAC",
+      "name": "Bank of America Corp",
+      "basePrice": 38.70,
+      "color": "#4CAF50"
+    },
+    {
+      "symbol": "V",
+      "name": "Visa Inc.",
+      "basePrice": 275.40,
+      "color": "#FBC02D"
+    },
+    {
+      "symbol": "MA",
+      "name": "Mastercard Inc.",
+      "basePrice": 450.80,
+      "color": "#FF9800"
+    },
+    {
+      "symbol": "DIS",
+      "name": "The Walt Disney Company",
+      "basePrice": 115.30,
+      "color": "#00BCD4"
+    },
+    {
+      "symbol": "HD",
+      "name": "The Home Depot Inc.",
+      "basePrice": 370.10,
+      "color": "#F4511E"
+    },
+    {
+      "symbol": "PFE",
+      "name": "Pfizer Inc.",
+      "basePrice": 27.80,
+      "color": "#1A237E"
+    },
+    {
+      "symbol": "UNH",
+      "name": "UnitedHealth Group Inc.",
+      "basePrice": 490.50,
+      "color": "#8BC34A"
+    },
+    {
+      "symbol": "XOM",
+      "name": "Exxon Mobil Corporation",
+      "basePrice": 115.90,
+      "color": "#FFEB3B"
+    },
+    {
+      "symbol": "CVX",
+      "name": "Chevron Corporation",
+      "basePrice": 155.70,
+      "color": "#795548"
+    },
+    {
+      "symbol": "PG",
+      "name": "Procter & Gamble Co.",
+      "basePrice": 160.20,
+      "color": "#607D8B"
+    },
+    {
+      "symbol": "NKE",
+      "name": "NIKE Inc.",
+      "basePrice": 95.60,
+      "color": "#E91E63"
+    },
+    {
+      "symbol": "ADSK",
+      "name": "Autodesk Inc.",
+      "basePrice": 260.10,
+      "color": "#009688"
+    },
+    {
+      "symbol": "SBUX",
+      "name": "Starbucks Corporation",
+      "basePrice": 90.30,
+      "color": "#03A9F4"
     }
   ]
 }
