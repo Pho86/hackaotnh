@@ -3,13 +3,13 @@
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "basePrice": 175.50,
+      "basePrice": 175.5,
       "color": "#007AFF"
     },
     {
       "symbol": "GOOGL",
       "name": "Alphabet Inc.",
-      "basePrice": 142.30,
+      "basePrice": 142.3,
       "color": "#34A853"
     },
     {
@@ -21,7 +21,7 @@
     {
       "symbol": "AMZN",
       "name": "Amazon.com Inc.",
-      "basePrice": 155.20,
+      "basePrice": 155.2,
       "color": "#FF6B6B"
     },
     {
@@ -33,7 +33,7 @@
     {
       "symbol": "META",
       "name": "Meta Platforms Inc.",
-      "basePrice": 485.60,
+      "basePrice": 485.6,
       "color": "#45B7D1"
     },
     {
@@ -45,19 +45,19 @@
     {
       "symbol": "NFLX",
       "name": "Netflix Inc.",
-      "basePrice": 485.30,
+      "basePrice": 485.3,
       "color": "#FFEAA7"
     },
     {
       "symbol": "AMD",
       "name": "Advanced Micro Devices",
-      "basePrice": 135.80,
+      "basePrice": 135.8,
       "color": "#DDA0DD"
     },
     {
       "symbol": "ADBE",
       "name": "Adobe Inc.",
-      "basePrice": 585.90,
+      "basePrice": 585.9,
       "color": "#98D8C8"
     },
     {
@@ -75,7 +75,7 @@
     {
       "symbol": "CRM",
       "name": "Salesforce Inc.",
-      "basePrice": 285.40,
+      "basePrice": 285.4,
       "color": "#FF9F40"
     },
     {
@@ -87,19 +87,19 @@
     {
       "symbol": "SQ",
       "name": "Block Inc.",
-      "basePrice": 85.30,
+      "basePrice": 85.3,
       "color": "#FFD93D"
     },
     {
       "symbol": "INTC",
       "name": "Intel Corporation",
-      "basePrice": 43.10,
+      "basePrice": 43.1,
       "color": "#0071C5"
     },
     {
       "symbol": "CSCO",
       "name": "Cisco Systems Inc.",
-      "basePrice": 49.70,
+      "basePrice": 49.7,
       "color": "#1BA0D7"
     },
     {
@@ -111,103 +111,103 @@
     {
       "symbol": "PEP",
       "name": "PepsiCo Inc.",
-      "basePrice": 168.90,
+      "basePrice": 168.9,
       "color": "#E53935"
     },
     {
       "symbol": "KO",
       "name": "The Coca-Cola Company",
-      "basePrice": 60.50,
+      "basePrice": 60.5,
       "color": "#F44336"
     },
     {
       "symbol": "WMT",
       "name": "Walmart Inc.",
-      "basePrice": 180.20,
+      "basePrice": 180.2,
       "color": "#007DC5"
     },
     {
       "symbol": "JPM",
       "name": "JPMorgan Chase & Co.",
-      "basePrice": 195.60,
+      "basePrice": 195.6,
       "color": "#2196F3"
     },
     {
       "symbol": "BAC",
       "name": "Bank of America Corp",
-      "basePrice": 38.70,
+      "basePrice": 38.7,
       "color": "#4CAF50"
     },
     {
       "symbol": "V",
       "name": "Visa Inc.",
-      "basePrice": 275.40,
+      "basePrice": 275.4,
       "color": "#FBC02D"
     },
     {
       "symbol": "MA",
       "name": "Mastercard Inc.",
-      "basePrice": 450.80,
+      "basePrice": 450.8,
       "color": "#FF9800"
     },
     {
       "symbol": "DIS",
       "name": "The Walt Disney Company",
-      "basePrice": 115.30,
+      "basePrice": 115.3,
       "color": "#00BCD4"
     },
     {
       "symbol": "HD",
       "name": "The Home Depot Inc.",
-      "basePrice": 370.10,
+      "basePrice": 370.1,
       "color": "#F4511E"
     },
     {
       "symbol": "PFE",
       "name": "Pfizer Inc.",
-      "basePrice": 27.80,
+      "basePrice": 27.8,
       "color": "#1A237E"
     },
     {
       "symbol": "UNH",
       "name": "UnitedHealth Group Inc.",
-      "basePrice": 490.50,
+      "basePrice": 490.5,
       "color": "#8BC34A"
     },
     {
       "symbol": "XOM",
       "name": "Exxon Mobil Corporation",
-      "basePrice": 115.90,
+      "basePrice": 115.9,
       "color": "#FFEB3B"
     },
     {
       "symbol": "CVX",
       "name": "Chevron Corporation",
-      "basePrice": 155.70,
+      "basePrice": 155.7,
       "color": "#795548"
     },
     {
       "symbol": "PG",
       "name": "Procter & Gamble Co.",
-      "basePrice": 160.20,
+      "basePrice": 160.2,
       "color": "#607D8B"
     },
     {
       "symbol": "NKE",
       "name": "NIKE Inc.",
-      "basePrice": 95.60,
+      "basePrice": 95.6,
       "color": "#E91E63"
     },
     {
       "symbol": "ADSK",
       "name": "Autodesk Inc.",
-      "basePrice": 260.10,
+      "basePrice": 260.1,
       "color": "#009688"
     },
     {
       "symbol": "SBUX",
       "name": "Starbucks Corporation",
-      "basePrice": 90.30,
+      "basePrice": 90.3,
       "color": "#03A9F4"
     }
   ]
