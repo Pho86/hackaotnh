@@ -64,32 +64,14 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
     }, [isSimulating, isOpen]);
 
     return (
-        <div className="w-full max-w-md">
-            <div className="">
-                <div className="">
-                    <div className="flex flex-row gap-2">
-                        {selectedStocks.map(symbol => {
-                            const stock = popularStocks.find(s => s.symbol === symbol);
-                            return (
-                                <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                    <span className="mr-2">{symbol}</span>
-                                    <button
-                                        onClick={() => onRemoveStock(symbol)}
-                                        className="text-blue-600 hover:text-blue-800 font-bold"
-                                    >
-                                        ×
-                                    </button>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
-
+        <div className="pl-4 w-full max-w-md">
+            <div className="flex flex-row gap-4">
+                
                 <div className="relative" ref={dropdownRef}>
                     <Button
                         onClick={() => setIsOpen(!isOpen)}
                         disabled={isSimulating}
-                        className="flex items-center justify-between"
+                        className="flex items-center justify-between whitespace-nowrap"
                         variant="default"
                     >
                         <span>Add Stocks</span>
@@ -99,14 +81,14 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     </Button>
 
                     {isOpen && (
-                        <div className="absolute z-10 w-full mt-1 bg-black/30 border border-neutral-700 rounded-md shadow-lg max-h-80 overflow-y-auto">
-                            <div className="p-2 border-b border-neutral-700">
+                        <div className="absolute w-80 mt-1 bg-black/70 border border-neutral-700 rounded-md shadow-lg max-h-80 overflow-y-auto z-50">
+                            <div className="p-2 border-b border-gray-200">
                                 <input
                                     type="text"
                                     placeholder="Search stocks..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full px-3 py-2 text-sm border border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                     autoFocus
                                 />
                             </div>
@@ -141,6 +123,22 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                             </div>
                         </div>
                     )}
+                </div>
+                <div className="flex flex-row gap-4">
+                    {selectedStocks.map(symbol => {
+                        const stock = popularStocks.find(s => s.symbol === symbol);
+                        return (
+                            <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                                <span className="mr-2">{symbol}</span>
+                                <button
+                                    onClick={() => onRemoveStock(symbol)}
+                                    className="text-blue-600 hover:text-blue-800 font-bold cursor-pointer"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

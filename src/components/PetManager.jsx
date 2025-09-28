@@ -246,7 +246,7 @@ export default function PetManager() {
                     disabled={!isSimulating && (!canStartSimulation || isLoadingHistorical)}
                     variant={isSimulating ? "danger" : "success"}
                 >
-                    {isSimulating ? "Stop Life" : "Start Life"}
+                      {isSimulating ? "Stop Simulation" : "Start Simulation"}
                 </Button>
                 
                 <Button
@@ -269,6 +269,7 @@ export default function PetManager() {
                     selectedStocks={selectedSymbols}
                     onStocksChange={setSelectedSymbols}
                     isSimulating={isSimulating}
+                    onRemoveStock={(symbol) => setSelectedSymbols(prev => prev.filter(s => s !== symbol))}
                 />
             )}
             

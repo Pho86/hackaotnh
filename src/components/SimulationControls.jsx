@@ -19,7 +19,7 @@ export default function SimulationControls({
                         onClick={isSimulating ? onStopSimulation : onStartSimulation}
                         variant={isSimulating ? "danger" : "success"}
                     >
-                        {isSimulating ? "Stop Life" : "Start Life"}
+                        {isSimulating ? "Stop Simulation" : "Start Simulation"}
                     </Button >
 
                 </div >
