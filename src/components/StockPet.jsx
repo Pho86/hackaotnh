@@ -1,6 +1,6 @@
 import React from "react";
 import PetManager from "./PetManager";
-import backgroundImg from "../assets/home.png";
+import backgroundImg from "../assets/background.png";
 
 export default function StockPet() {
     return (

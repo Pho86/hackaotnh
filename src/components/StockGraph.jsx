@@ -95,7 +95,6 @@ export default function StockGraph({
                 
                 ctx.strokeStyle = '#4B5563';
                 ctx.lineWidth = 1;
-                ctx.setLineDash([3, 3]);
                 
                 for (let i = 0; i <= 4; i++) {
                     const value = minValue - valuePadding + ((valueRange + 2 * valuePadding) / 4) * i;
@@ -111,7 +110,6 @@ export default function StockGraph({
                     ctx.textAlign = 'left';
                     ctx.fillText(`$${value.toFixed(2)}`, 5, y - 5);
                 }
-                ctx.setLineDash([]);
             }
         }
 
@@ -210,29 +208,12 @@ export default function StockGraph({
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 
-                let isInPrediction = false;
                 stockPoints.forEach((point, index) => {
                     const x = (index / (stockPoints.length - 1)) * width;
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
                     const y = height - (normalizedPrice * height);
                     
-                    const shouldShowPrediction = point.isPrediction && !isSimulating;
-                    
-                    if (shouldShowPrediction && !isInPrediction) {
-                        ctx.stroke();
-                        ctx.setLineDash([8, 4]);
-                        ctx.strokeStyle = color + '80';
-                        ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        isInPrediction = true;
-                    } else if (!shouldShowPrediction && isInPrediction) {
-                        ctx.stroke();
-                        ctx.setLineDash([]);
-                        ctx.strokeStyle = color;
-                        ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        isInPrediction = false;
-                    } else if (index === 0) {
+                    if (index === 0) {
                         ctx.moveTo(x, y);
                     } else {
                         ctx.lineTo(x, y);
@@ -245,22 +226,11 @@ export default function StockGraph({
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
                     const y = height - (normalizedPrice * height);
                     
-                    const shouldShowPrediction = point.isPrediction && !isSimulating;
-                    
-                    if (shouldShowPrediction) {
-                        // hollow circles for predictions
-                        ctx.strokeStyle = color + '80';
-                        ctx.lineWidth = 2;
-                        ctx.beginPath();
-                        ctx.arc(x, y, 3, 0, 2 * Math.PI);
-                        ctx.stroke();
-                    } else if (!point.isPrediction) {
-                        // filled circles for historical data
-                        ctx.fillStyle = color;
-                        ctx.beginPath();
-                        ctx.arc(x, y, 4, 0, 2 * Math.PI);
-                        ctx.fill();
-                    }
+                    // filled circles for all data points
+                    ctx.fillStyle = color;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                    ctx.fill();
                 });
             });
         }

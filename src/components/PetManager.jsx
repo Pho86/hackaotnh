@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import fakeStockApiService from '../services/fakeStockApi';
-import PetDisplay from './PetDisplay';
-import StockDataDisplay from './StockDataDisplay';
-import SimulationControls from './SimulationControls';
-import StockSelector from './StockSelector';
-import StockGraph from './StockGraph';
-import Button from './Button';
+import React, { useState, useEffect } from "react";
+import fakeStockApiService from "../services/fakeStockApi";
+import PetDisplay from "./PetDisplay";
+import StockSelector from "./StockSelector";
+import StockGraph from "./StockGraph";
+import Button from "./Button";
 
 export default function PetManager() {
-    const [selectedSymbols, setSelectedSymbols] = useState([]);
-    const [pets, setPets] = useState({});
-    const [isSimulating, setIsSimulating] = useState(false);
-    const [simulationData, setSimulationData] = useState({});
-    const [currentSimIndex, setCurrentSimIndex] = useState(0);
-    const [simulationSpeed, setSimulationSpeed] = useState(1000);
-    const [error, setError] = useState(null);
-    const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
-    const [viewMode, setViewMode] = useState('individual');
+  const [selectedSymbols, setSelectedSymbols] = useState([]);
+  const [pets, setPets] = useState({});
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulationData, setSimulationData] = useState({});
+  const [currentSimIndex, setCurrentSimIndex] = useState(0);
+  const [simulationSpeed, setSimulationSpeed] = useState(1000);
+  const [error, setError] = useState(null);
+  const [isLoadingHistorical, setIsLoadingHistorical] = useState(false);
+  const [viewMode, setViewMode] = useState("individual");
 
   useEffect(() => {
     const initialPets = {};
@@ -229,24 +227,26 @@ export default function PetManager() {
           symbol={symbol}
           data={pets[symbol]?.data}
         />
-        
       ))}
       {/* Control Panel */}
         <div className="flex flex-row space-y-4 mb-4 p-4">
             <div className="flex flex-row space-x-4 items-center">
-                <Button 
-                    onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
-                    variant="default"
-                >
-                    {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
-                </Button>
                 
                 <Button
                     onClick={isSimulating ? stopSimulation : startSimulation}
                     disabled={!isSimulating && (!canStartSimulation || isLoadingHistorical)}
                     variant={isSimulating ? "danger" : "success"}
                 >
-                      {isSimulating ? "Stop Simulation" : "Start Simulation"}
+                      {isSimulating ? "Reset" : "Start"}
+                </Button>
+
+                <Button 
+                    onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
+                    variant="default"
+                    className={"bg-[#2F454C] hover:bg-[#2F454C] "}
+                    active={viewMode === 'portfolio'}
+                    >
+                    {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
                 </Button>
                 
                 <Button
@@ -259,8 +259,9 @@ export default function PetManager() {
                             setSimulationSpeed(500);
                         }
                     }}
-                >
-                    {simulationSpeed === 500 ? ">" : simulationSpeed === 1000 ? ">>" : ">>>"}
+                    className={"bg-[#4c2f2f] "}
+                    >
+                    {simulationSpeed === 500 ? ">>>" : simulationSpeed === 1000 ? ">>" : ">"}
                 </Button>
             </div>
             
@@ -274,16 +275,13 @@ export default function PetManager() {
             )}
             
             {isSimulating && (
-                <div className="text-sm text-white-600 px-4">
+                <div className="text-sm text-white-600 px-4 flex justify-center flex-col">
                     <p>Day {currentSimIndex + 1} of {Math.max(...selectedSymbols.map((symbol) =>
                         simulationData[symbol] ? simulationData[symbol].length : 0
                     ))}</p>
                     {simulationData && Object.keys(simulationData).length > 0 && (
-                        <p className="text-xs text-white-500">
+                        <p className="text-xs text-white/80">
                             Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
-                            {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
-                                <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
-                            )}
                         </p>
                     )}
                 </div>
@@ -300,20 +298,7 @@ export default function PetManager() {
              simulationData={simulationData}
              viewMode={viewMode}
            />
-           {/* <div className="flex flex-col gap-4 w-full px-8 justify-center">
-             {selectedSymbols.map(symbol => (
-               <div key={`info-${symbol}`} className="bg-black/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
-                 <div className="text-center space-y-3">
-                   <h3 className="text-lg font-semibold text-gray-800">{symbol}</h3>
-                   <StockDataDisplay
-                     data={pets[symbol]?.data}
-                     error={error}
-                     symbol={symbol}
-                   />
-                 </div>
-               </div>
-             ))}
-           </div> */}
+           
          </div>
       </div>
     </>
