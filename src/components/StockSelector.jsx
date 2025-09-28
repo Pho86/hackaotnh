@@ -64,7 +64,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
     }, [isSimulating, isOpen]);
 
     return (
-        <div className="flex flex-row w-full max-w-md">
+        <div className="flex flex-row w-full max-w-md px-4">
             {selectedStocks.length === 0 && (
                 <p className="text-gray-500 text-sm">No stocks selected</p>
             )} 
@@ -73,7 +73,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                 <Button
                     onClick={() => setIsOpen(!isOpen)}
                     disabled={isSimulating}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between w-32"
                     variant="default"
                 >
                     <span>Add Stocks</span>
@@ -126,15 +126,15 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                     </div>
                 )}
             </div>
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-2 px-4">
                 {selectedStocks.map(symbol => {
                     const stock = popularStocks.find(s => s.symbol === symbol);
                     return (
-                        <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                        <div key={symbol} className="flex items-center px-4 py-1 h-11 rounded-full text-sm" style={{ backgroundColor: stock.color }} >
                             <span className="mr-2">{symbol}</span>
                             <button
                                 onClick={() => removeStock(symbol)}
-                                className="text-blue-600 hover:text-blue-800 font-bold"
+                                className="text-white-600 hover:text-blue-800 font-bold"
                             >
                                 ×
                             </button>
