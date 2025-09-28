@@ -12,17 +12,18 @@ export default function PetDisplay({
   });
   const [direction, setDirection] = useState(1);
   const [rotation, setRotation] = useState(0);
+  const [fishType] = useState(() => {
+    const fishTypes = ['goldframe', 'pinkframe', 'yellowframe'];
+    return fishTypes[Math.floor(Math.random() * fishTypes.length)];
+  });
+  const [fishVariant, setFishVariant] = useState(() => {
+    const variants = ['1', '2', '3'];
+    return variants[Math.floor(Math.random() * variants.length)];
+  });
 
   const getPetEmoji = () => {
-    switch (mood) {
-      case "happy":
-        return <img src="src/assets/goldframe2.png" />;
-      case "sad":
-        return <img src="src/assets/goldframe3.png" />;
-      case "neutral":
-      default:
-        return <img src="src/assets/goldframe1.png" />;
-    }
+    const fishImage = `/src/assets/${fishType}${fishVariant}.png`;
+    return <img src={fishImage} alt={`${fishType}${fishVariant} fish`} className="w-16 h-16" />;
   };
 
   const getTextColor = () => {
@@ -38,6 +39,19 @@ export default function PetDisplay({
       return "text-gray-700"; 
     }
   };
+
+  useEffect(() => {
+    if (!isSimulating) return;
+
+    const randomizeVariant = () => {
+      const variants = ['1', '2', '3'];
+      setFishVariant(variants[Math.floor(Math.random() * variants.length)]);
+    };
+
+    const variantInterval = setInterval(randomizeVariant, 10000 + Math.random() * 5000);
+    
+    return () => clearInterval(variantInterval);
+  }, [isSimulating]);
 
   useEffect(() => {
     if (!isSimulating) return;

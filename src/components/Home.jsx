@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import backgroundImg from "../assets/home.png";
+import backgroundImg from "../assets/bg-home.png";
 import goldfishImg from "../assets/grindset-goldfish.png";
 
 export default function Home() {
