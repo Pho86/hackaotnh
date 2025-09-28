@@ -7,12 +7,13 @@ export default function StockGraph({
     currentSimIndex, 
     simulationData,
     viewMode = 'individual',
-    width = 800, 
-    height = 400 
+    width, 
+    height 
 }) {
     const canvasRef = useRef(null);
     const [points, setPoints] = useState({});
-    const [previousStockSymbols, setPreviousStockSymbols] = useState([]); 
+    const [previousStockSymbols, setPreviousStockSymbols] = useState([]);
+    const [dimensions, setDimensions] = useState({ width: 800, height: 400 }); 
     
     const colors = {};
     stocksData.stocks.forEach(stock => {
@@ -21,32 +22,61 @@ export default function StockGraph({
 
     const getStockColor = (symbol) => colors[symbol] || '#666666';
 
+    // Handle responsive sizing
+    useEffect(() => {
+        const updateDimensions = () => {
+            const screenWidth = window.innerWidth;
+            let newWidth, newHeight;
+
+            if (screenWidth < 640) { // Mobile
+                newWidth = Math.min(screenWidth - 32, 350); // 32px padding
+                newHeight = 250;
+            } else if (screenWidth < 768) { // Small tablet
+                newWidth = Math.min(screenWidth - 64, 500);
+                newHeight = 300;
+            } else if (screenWidth < 1024) { // Tablet
+                newWidth = Math.min(screenWidth - 96, 650);
+                newHeight = 350;
+            } else { // Desktop
+                newWidth = width || 800;
+                newHeight = height || 400;
+            }
+
+            setDimensions({ width: newWidth, height: newHeight });
+        };
+
+        updateDimensions();
+        window.addEventListener('resize', updateDimensions);
+        
+        return () => window.removeEventListener('resize', updateDimensions);
+    }, [width, height]);
+
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
         ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillRect(0, 0, dimensions.width, dimensions.height);
 
         ctx.strokeStyle = '#374151';
         ctx.lineWidth = 1;
         
         // vertical grid lines
         for (let i = 0; i <= 10; i++) {
-            const x = (width / 10) * i;
+            const x = (dimensions.width / 10) * i;
             ctx.beginPath();
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, height);
+            ctx.lineTo(x, dimensions.height);
             ctx.stroke();
         }
         
         // horizontal grid lines
         for (let i = 0; i <= 5; i++) {
-            const y = (height / 5) * i;
+            const y = (dimensions.height / 5) * i;
             ctx.beginPath();
             ctx.moveTo(0, y);
-            ctx.lineTo(width, y);
+            ctx.lineTo(dimensions.width, y);
             ctx.stroke();
         }
 
@@ -98,15 +128,15 @@ export default function StockGraph({
                 
                 for (let i = 0; i <= 4; i++) {
                     const value = minValue - valuePadding + ((valueRange + 2 * valuePadding) / 4) * i;
-                    const y = height - (i / 4) * height;
+                    const y = dimensions.height - (i / 4) * dimensions.height;
                     
                     ctx.beginPath();
                     ctx.moveTo(0, y);
-                    ctx.lineTo(width, y);
+                    ctx.lineTo(dimensions.width, y);
                     ctx.stroke();
                     
                     ctx.fillStyle = '#D1D5DB';
-                    ctx.font = '12px Arial';
+                    ctx.font = dimensions.width < 500 ? '10px Arial' : '12px Arial';
                     ctx.textAlign = 'left';
                     ctx.fillText(`$${value.toFixed(2)}`, 5, y - 5);
                 }
@@ -153,9 +183,9 @@ export default function StockGraph({
                     ctx.beginPath();
                     
                     portfolioPoints.forEach((point, index) => {
-                        const x = (index / (portfolioPoints.length - 1)) * width;
+                        const x = (index / (portfolioPoints.length - 1)) * dimensions.width;
                         const normalizedValue = (point.totalValue - minValue + valuePadding) / (valueRange + 2 * valuePadding);
-                        const y = height - (normalizedValue * height);
+                        const y = dimensions.height - (normalizedValue * dimensions.height);
                         
                         if (index === 0) {
                             ctx.moveTo(x, y);
@@ -167,12 +197,12 @@ export default function StockGraph({
                     
                     ctx.fillStyle = '#8B5CF6';
                     portfolioPoints.forEach((point, index) => {
-                        const x = (index / (portfolioPoints.length - 1)) * width;
+                        const x = (index / (portfolioPoints.length - 1)) * dimensions.width;
                         const normalizedValue = (point.totalValue - minValue + valuePadding) / (valueRange + 2 * valuePadding);
-                        const y = height - (normalizedValue * height);
+                        const y = dimensions.height - (normalizedValue * dimensions.height);
                         
                         ctx.beginPath();
-                        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                        ctx.arc(x, y, dimensions.width < 500 ? 3 : 5, 0, 2 * Math.PI);
                         ctx.fill();
                     });
                 }
@@ -209,9 +239,9 @@ export default function StockGraph({
                 ctx.beginPath();
                 
                 stockPoints.forEach((point, index) => {
-                    const x = (index / (stockPoints.length - 1)) * width;
+                    const x = (index / (stockPoints.length - 1)) * dimensions.width;
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
-                    const y = height - (normalizedPrice * height);
+                    const y = dimensions.height - (normalizedPrice * dimensions.height);
                     
                     if (index === 0) {
                         ctx.moveTo(x, y);
@@ -222,20 +252,20 @@ export default function StockGraph({
                 ctx.stroke();
 
                 stockPoints.forEach((point, index) => {
-                    const x = (index / (stockPoints.length - 1)) * width;
+                    const x = (index / (stockPoints.length - 1)) * dimensions.width;
                     const normalizedPrice = (point.price - minPrice + pricePadding) / (priceRange + 2 * pricePadding);
-                    const y = height - (normalizedPrice * height);
+                    const y = dimensions.height - (normalizedPrice * dimensions.height);
                     
                     // filled circles for all data points
                     ctx.fillStyle = color;
                     ctx.beginPath();
-                    ctx.arc(x, y, 4, 0, 2 * Math.PI);
+                    ctx.arc(x, y, dimensions.width < 500 ? 3 : 4, 0, 2 * Math.PI);
                     ctx.fill();
                 });
             });
         }
 
-    }, [points, width, height, viewMode, isSimulating]);
+    }, [points, dimensions, viewMode, isSimulating]);
 
     useEffect(() => {
         if (!isSimulating || !simulationData) return;
@@ -289,33 +319,36 @@ export default function StockGraph({
     }, [stocks, previousStockSymbols]);
 
     return (
-        <div className="bg-black/30 h-max rounded-lg p-4 shadow-lg w-max">
-            <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-white">Stock Performance Graph</h3>
+        <div className="bg-black/30 rounded-lg p-2 sm:p-4 shadow-lg w-full max-w-[600px] overflow-x-auto">
+            <div className="flex justify-between items-center mb-2 sm:mb-4">
+                <h3 className="text-sm sm:text-lg font-semibold text-white">Stock Performance Graph</h3>
             </div>
             
-            <canvas
-                ref={canvasRef}
-                width={width}
-                height={height}
-                className="border border-gray-600 rounded"
-            />
+            <div className="flex justify-center">
+                <canvas
+                    ref={canvasRef}
+                    width={dimensions.width}
+                    height={dimensions.height}
+                    className="border border-gray-600 rounded max-w-full"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                />
+            </div>
             
-            <div className="flex flex-wrap gap-4 mt-4">
+            <div className="flex flex-wrap gap-2 sm:gap-4 mt-2 sm:mt-4 justify-center">
                 {viewMode === 'individual' ? (
                     Object.keys(points).map(symbol => (
-                        <div key={symbol} className="flex items-center gap-2">
+                        <div key={symbol} className="flex items-center gap-1 sm:gap-2">
                             <div 
-                                className="w-3 h-3 rounded-full" 
+                                className="w-2 h-2 sm:w-3 sm:h-3 rounded-full" 
                                 style={{ backgroundColor: getStockColor(symbol) }}
                             />
-                            <span className="text-sm font-medium text-white">{symbol}</span>
+                            <span className="text-xs sm:text-sm font-medium text-white">{symbol}</span>
                         </div>
                     ))
                 ) : (
-                    <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-purple-400" />
-                        <span className="text-sm font-medium text-white">Cumulative</span>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                        <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-purple-400" />
+                        <span className="text-xs sm:text-sm font-medium text-white">Cumulative</span>
                     </div>
                 )}
             </div>

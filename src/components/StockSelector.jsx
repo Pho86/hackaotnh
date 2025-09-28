@@ -145,7 +145,7 @@ export default function StockSelector({
             )}
           </div>
           {/* Selected stocks display */}
-          <div className="flex flex-row gap-4 items-center text-black">
+          <div className="flex flex-col md:flex-row gap-4 items-center text-black">
             <p>selected:</p>
             {selectedStocks.map((symbol) => {
               const stock = popularStocks.find((s) => s.symbol === symbol);

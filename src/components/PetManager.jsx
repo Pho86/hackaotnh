@@ -229,7 +229,7 @@ export default function PetManager() {
         />
       ))}
       {/* Control Panel */}
-        <div className="flex flex-row space-y-4 mb-4 p-4">
+        <div className="flex flex-col md:flex-row space-y-4 mb-4 p-4">
             <div className="flex flex-row space-x-4 items-center">
                 
                 <Button
