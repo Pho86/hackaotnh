@@ -319,7 +319,7 @@ export default function StockGraph({
     }, [stocks, previousStockSymbols]);
 
     return (
-        <div className="bg-black/30 h-max rounded-lg p-4 shadow-lg">
+        <div className="bg-black/30 h-max rounded-lg p-4 shadow-lg w-max">
             <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold text-white">Stock Performance Graph</h3>
             </div>
@@ -345,7 +345,7 @@ export default function StockGraph({
                 ) : (
                     <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-purple-400" />
-                        <span className="text-sm font-medium text-white">Total Portfolio Value</span>
+                        <span className="text-sm font-medium text-white">Cumulative</span>
                     </div>
                 )}
             </div>
