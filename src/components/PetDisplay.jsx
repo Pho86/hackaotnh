@@ -30,7 +30,7 @@ export default function PetDisplay({
     if (!data || typeof data.changePercent !== "number") {
       return "text-gray-700"; 
     }
-    
+
     if (data.changePercent > 0) {
       return "text-green-600";
     } else if (data.changePercent < 0) {
