@@ -232,7 +232,7 @@ export default function PetManager() {
         
       ))}
       {/* Control Panel */}
-        <div className="flex flex-col space-y-4 mb-4 p-4">
+        <div className="flex flex-row space-y-4 mb-4 p-4">
             <div className="flex flex-row space-x-4 items-center">
                 <Button 
                     onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
@@ -273,12 +273,12 @@ export default function PetManager() {
             )}
             
             {isSimulating && (
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-white-600 px-4">
                     <p>Day {currentSimIndex + 1} of {Math.max(...selectedSymbols.map((symbol) =>
                         simulationData[symbol] ? simulationData[symbol].length : 0
                     ))}</p>
                     {simulationData && Object.keys(simulationData).length > 0 && (
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-white-500">
                             Date: {Object.values(simulationData)[0]?.[currentSimIndex]?.date || 'Loading...'}
                             {Object.values(simulationData)[0]?.[currentSimIndex]?.isPrediction && (
                                 <span className="ml-2 text-purple-600 font-medium">🔮 PREDICTION</span>
@@ -289,40 +289,9 @@ export default function PetManager() {
             )}
         </div>
 
-      <div className="flex flex-col items-center p-6 space-y-4 relative z-10">
-        {/* {!isSimulating && (
-          <StockSelector
-            selectedStocks={selectedSymbols}
-            onStocksChange={setSelectedSymbols}
-            isSimulating={isSimulating}
-          />
-        )} */}
-        {/* <SimulationControls
-          isSimulating={isSimulating}
-          onStartSimulation={startSimulation}
-          onStopSimulation={stopSimulation}
-          simulationSpeed={simulationSpeed}
-          onSpeedChange={setSimulationSpeed}
-          currentSimIndex={currentSimIndex}
-          simulationDataLength={Math.max(
-            ...selectedSymbols.map((symbol) =>
-              simulationData[symbol] ? simulationData[symbol].length : 0
-            )
-          )}
-          simulationData={simulationData}
-          pets={pets}
-          canStartSimulation={canStartSimulation && !isLoadingHistorical}
-        /> */}
+      <div className="flex flex-col items-left p-6 space-y-4 relative z-10">
 
          <div className="flex flex-col p-6 space-y-4 relative z-10">
-           {/* <div className="flex justify-center mb-4">
-             <Button 
-               onClick={() => setViewMode(viewMode === 'individual' ? 'portfolio' : 'individual')}
-               variant="default"
-             >
-               {viewMode === 'individual' ? 'Portfolio' : 'Individual'}
-             </Button>
-           </div> */}
            <StockGraph
              stocks={pets}
              isSimulating={isSimulating}
@@ -330,7 +299,7 @@ export default function PetManager() {
              simulationData={simulationData}
              viewMode={viewMode}
            />
-           <div className="flex flex-col gap-4 w-full px-8 justify-center">
+           {/* <div className="flex flex-col gap-4 w-full px-8 justify-center">
              {selectedSymbols.map(symbol => (
                <div key={`info-${symbol}`} className="bg-black/90 border border-gray-200 rounded-lg p-4 shadow-sm backdrop-blur-sm">
                  <div className="text-center space-y-3">
@@ -343,7 +312,7 @@ export default function PetManager() {
                  </div>
                </div>
              ))}
-           </div>
+           </div> */}
          </div>
       </div>
     </>

@@ -74,7 +74,7 @@ export default function StockSelector({ selectedStocks, onStocksChange, isSimula
                                 <div key={symbol} className="flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
                                     <span className="mr-2">{symbol}</span>
                                     <button
-                                        onClick={() => removeStock(symbol)}
+                                        onClick={() => onRemoveStock(symbol)}
                                         className="text-blue-600 hover:text-blue-800 font-bold"
                                     >
                                         ×
