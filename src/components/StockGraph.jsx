@@ -319,7 +319,7 @@ export default function StockGraph({
     }, [stocks, previousStockSymbols]);
 
     return (
-        <div className="bg-black/30 rounded-lg p-2 sm:p-4 shadow-lg w-full max-w-[600px] overflow-x-auto">
+        <div className="bg-black/30 z-100 rounded-lg p-2 sm:p-4 shadow-lg w-full max-w-[600px] overflow-x-auto">
             <div className="flex justify-between items-center mb-2 sm:mb-4">
                 <h3 className="text-sm sm:text-lg font-semibold text-white">Stock Performance Graph</h3>
             </div>

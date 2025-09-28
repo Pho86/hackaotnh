@@ -23,7 +23,7 @@ export default function PetDisplay({
 
   const getPetEmoji = () => {
     const fishImage = `/src/assets/${fishType}${fishVariant}.png`;
-    return <img src={fishImage} alt={`${fishType}${fishVariant} fish`} className="w-16 h-16" />;
+    return <img src={fishImage} alt={`${fishType}${fishVariant} fish`} className="w-24 h-24" />;
   };
 
   const getTextColor = () => {
@@ -125,7 +125,7 @@ export default function PetDisplay({
       <div className="relative">
         <div
           style={{
-            fontSize: "2rem",
+            fontSize: "4rem",
             transform: `rotateY(${rotation}deg)`,
             transformOrigin: "center",
             transition: "transform 0.5s ease-in-out",
