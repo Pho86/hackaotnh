@@ -6,16 +6,16 @@ export default function StockPet() {
     return (
         <>
             <div className="overflow-hidden h-screen w-screen absolute top-0 left-0 opacity-5 pointer-events-none">
-                <div class="bubble one"></div>
-                <div class="bubble two"></div>
-                <div class="bubble three"></div>
-                <div class="bubble four"></div>
-                <div class="bubble five"></div>
-                <div class="bubble six"></div>
-                <div class="bubble seven"></div>
-                <div class="bubble eight"></div>
-                <div class="bubble nine"></div>
-                <div class="bubble ten"></div>
+                <div className="bubble one"></div>
+                <div className="bubble two"></div>
+                <div className="bubble three"></div>
+                <div className="bubble four"></div>
+                <div className="bubble five"></div>
+                <div className="bubble six"></div>
+                <div className="bubble seven"></div>
+                <div className="bubble eight"></div>
+                <div className="bubble nine"></div>
+                <div className="bubble ten"></div>
             </div>
             <div
                 style={{

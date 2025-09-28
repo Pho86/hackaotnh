@@ -3,8 +3,33 @@ class BackgroundMusicService {
         this.playlist = [
             {
                 id: 1,
-                title: "Ambient Ocean",
+                title: "Ambient Ocean 1",
                 url: "/audio/ocean-1.mp3",
+            },
+            {
+                id: 2,
+                title: "Ambient Ocean 2",
+                url: "/audio/ocean-2.mp3",
+            },
+            {
+                id: 3,
+                title: "Ambient Ocean 3",
+                url: "/audio/ocean-3.mp3",
+            },
+            {
+                id: 4,
+                title: "Apple Seed",
+                url: "/audio/hiroyuki_sawano_apple_seed.mp3",
+            },
+            {
+                id: 5,
+                title: "Soft Spot",
+                url: "/audio/keshi_soft_spot.mp3",
+            },
+            {
+                id: 6,
+                title: "Blue",
+                url: "/audio/yung_kai_blue.mp3",
             },
         ];
         
