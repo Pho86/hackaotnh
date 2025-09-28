@@ -22,8 +22,8 @@ export default function PetDisplay({
   });
 
   const getPetEmoji = () => {
-    const fishImage = `/src/assets/${fishType}${fishVariant}.png`;
-    return <img src={fishImage} alt={`${fishType}${fishVariant} fish`} className="w-24 h-24" />;
+    const fishImage = `/fish/${fishType}${fishVariant}.png`;
+    return <img src={fishImage} alt={`${fishType}${fishVariant} fish`} className="w-16 h-16" />;
   };
 
   const getTextColor = () => {

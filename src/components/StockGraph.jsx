@@ -334,10 +334,10 @@ export default function StockGraph({
                 />
             </div>
             
-            <div className="flex flex-wrap gap-2 sm:gap-4 mt-2 sm:mt-4 justify-center">
+            <div className="flex flex-wrap gap-2 sm:gap-4 mt-2 sm:mt-4">
                 {viewMode === 'individual' ? (
                     Object.keys(points).map(symbol => (
-                        <div key={symbol} className="flex items-center gap-1 sm:gap-2">
+                        <div key={symbol} className="flex items-center gap-1 sm:gap-2 px-2" style={{backgroundColor: getStockColor(symbol) }}>
                             <div 
                                 className="w-2 h-2 sm:w-3 sm:h-3 rounded-full" 
                                 style={{ backgroundColor: getStockColor(symbol) }}
